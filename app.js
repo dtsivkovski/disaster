@@ -1,13 +1,24 @@
+// mongoDB connection
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const mongoose = require('mongoose');
+
+// express loggers
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// require config
+require('dotenv').config();
+
+// routers
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+// get port from env
 var PORT = process.env.PORT || 3000;
+var MONGO_URI = process.env.MONGO_URI;
 
 var app = express();
 
@@ -23,6 +34,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+mongoose.connect(MONGO_URI);
+mongoose.connection.on('connected', () => {
+  console.log('Connected to MongoDB');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
