@@ -31,10 +31,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+//mongodb connection
 mongoose.connect(MONGO_URI);
 mongoose.connection.on('connected', () => {
   console.log('Connected to MongoDB');

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+</style>
+<head>
+  <%- include('../partials/head'); %>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<script>
+    document.getElementById('reports-nav-item').classList.add('is-active');
+</script>
+
+<main>
+  <div class="jumbotron">
+    <!-- Form for submission of a fire report -->
+     <h1 class="title is-1 fire-color"> Report a Fire </h1>
+     <h4 class="title is-4"> Your location </h4>
+     <a class="button is-primary fire-background hover-scale" onclick="getLocation()"> Get Location (requires permission) </a>
+     <p style="display:none;" id="locationConfirmation"> Is this the correct location? If not, drag the marker to set the correct location. </p>
+    <div id='map' style='width: 36em; height: 36em; margin: 4em;'></div>
+  </div>
+  <script>
+    mapboxgl.accessToken = "<%= map_token %>";
+
+    function getLocation() {
+      // request permission to get location if not already
+      var userLocation = [-117.903663, 33.798444]; // default map marker location
+
+      if (navigator.geolocation) {
+        // save location information
+        navigator.geolocation.getCurrentPosition((position) => {
+          userLocation = [position.coords.longitude, position.coords.latitude];
+        });
+        
+        // create new map and then update marker location
+        var map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/mapbox/streets-v11',
+          center: userLocation,
+          zoom: 8.5
+        });
+
+        var marker = new mapboxgl.Marker({
+          draggable: true
+        })
+          .setLngLat(userLocation)
+          .addTo(map);
+
+
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    //TODO: SUBMIT MAP LOCATION, FLEX COLUMNS
+
+  </script>
+</main>
+
+<footer>
+  
+</footer>
+
+</body>
+</html>

@@ -15,6 +15,10 @@ const fireReportSchema = new mongoose.Schema({
             required: true
         }
     },
+    time: {
+        type: Date,
+        required: true
+    }
 });
 
 // export notecard model

@@ -1,8 +1,59 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 1em "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: linear-gradient(0deg,#1c1c1c 0%, #1c1c1c 100%);
+  min-height: 100vh;
+}
+
+.jumbotron {
+  padding: 2em;
+  color: white;
 }
 
 a {
   color: #00B7FF;
+}
+
+.navbar-item.is-active {
+  color: white;
+}
+
+@keyframes firecolor {
+  0% {
+    color: #e06868;
+  }
+  50% {
+    color: #e0a941;
+  }
+  100% {
+    color: #fefee8;
+  }
+}
+
+@keyframes firebackground {
+  0% {
+    background-color: #e06868;
+  }
+  50% {
+    background-color: #e0a941;
+  }
+  100% {
+    background-color: #fefee8;
+  }
+}
+
+.fire-color {
+  animation: firecolor 3s infinite alternate;
+}
+
+.fire-background {
+  animation: firebackground 3s infinite alternate;
+}
+
+.hover-scale:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s;
+}
+
+.hover-scale {
+  transition: transform 0.3s;
 }
