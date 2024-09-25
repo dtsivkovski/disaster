@@ -19,12 +19,20 @@
 
 <main>
   <div class="jumbotron">
-    <!-- Form for submission of a fire report -->
-     <h1 class="title is-1 fire-color"> Report a Fire </h1>
-     <h4 class="title is-4"> Your location </h4>
-     <a class="button is-primary fire-background hover-scale" onclick="getLocation()"> Get Location (requires permission) </a>
-     <p style="display:none;" id="locationConfirmation"> Is this the correct location? If not, drag the marker to set the correct location. </p>
-    <div id='map' style='width: 36em; height: 36em; margin: 4em;'></div>
+    <div class="columns">
+      <div class="column">
+        <h1 class="title is-1 fire-color"> Report a Fire </h1>
+        <h4 class="title is-4"> Your location </h4>
+        <a class="button is-primary fire-background hover-scale" style="margin-bottom: 1em;" onclick="getLocation()"> Get Location (requires permission) </a>
+        <p style="display:none; margin-bottom: 1em;" id="locationConfirmation"> Is this the correct location? If not, drag the marker to set the correct location. </p>
+        <a class="button is-primary hover-scale" id="submitLocation" style="display:none;">Submit Report</a>
+      </div>
+      <div class="column">
+        <div id="map" style="width: 95%; height: 36em; margin: 2em"></div>
+      </div>
+    </div>
+
+     
   </div>
   <script>
     mapboxgl.accessToken = "<%= map_token %>";
@@ -53,13 +61,16 @@
           .setLngLat(userLocation)
           .addTo(map);
 
+        document.getElementById('locationConfirmation').style.display = 'block';
+        document.getElementById('submitLocation').style.display = 'block';
+
 
       } else {
         alert("Geolocation is not supported by this browser.");
       }
     }
 
-    //TODO: SUBMIT MAP LOCATION, FLEX COLUMNS
+    //TODO: SUBMIT MAP LOCATION
 
   </script>
 </main>
