@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 
 /* GET reports page. */
 router.get('/fire-reports', function(req, res, next) {
-  res.render('pages/fire-reports', { title: 'Reports', map_token: map_token });
+  res.render('pages/fire-reports', { map_token: map_token });
 });
 
 module.exports = router;

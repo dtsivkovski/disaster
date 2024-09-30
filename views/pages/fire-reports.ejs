@@ -4,6 +4,7 @@
 </style>
 <head>
   <%- include('../partials/head'); %>
+  <title>Fire Reports</title>
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
 </head>
@@ -22,12 +23,12 @@
     <div class="columns">
       <div class="column">
         <h1 class="title is-1 fire-color"> Report a Fire </h1>
-        <h4 class="title is-4"> Your location </h4>
-        <a class="button is-primary fire-background hover-scale" style="margin-bottom: 1em;" onclick="getLocation()"> Get Location (requires permission) </a>
+        <a class="button is-primary fire-background hover-translate-up" style="margin-bottom: 1em;" onclick="getLocation()"> Get Your Location (requires permission) </a>
         <p style="display:none; margin-bottom: 1em;" id="locationConfirmation"> Is this the correct location? If not, drag the marker to set the correct location. </p>
-        <a class="button is-primary hover-scale" id="submitLocation" style="display:none;">Submit Report</a>
+        <a class="button is-primary hover-translate-up" id="submitLocation" style="display:none;">Submit Report</a>
       </div>
       <div class="column">
+        <h4 class="title is-4" style="display: none" id="yourLocationTitle"> Your location </h4>
         <div id="map" style="width: 95%; height: 36em; margin: 2em"></div>
       </div>
     </div>
@@ -63,6 +64,7 @@
 
         document.getElementById('locationConfirmation').style.display = 'block';
         document.getElementById('submitLocation').style.display = 'block';
+        document.getElementById('yourLocationTitle').style.display = 'block';
 
 
       } else {

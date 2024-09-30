@@ -49,11 +49,11 @@ a {
   animation: firebackground 3s infinite alternate;
 }
 
-.hover-scale:hover {
-  transform: scale(1.1);
+.hover-translate-up:hover {
+  transform: translate(0, -2px);
   transition: transform 0.3s;
 }
 
-.hover-scale {
+.hover-translate-up {
   transition: transform 0.3s;
 }
