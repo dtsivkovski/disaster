@@ -72,7 +72,8 @@
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: userLocation,
-      zoom: 6
+      zoom: 6,
+      projection: 'globe'
     });
 
     var userMarker = new mapboxgl.Marker({
