@@ -37,7 +37,7 @@ router.post('/fire-report/new', function(req, res, next) {
 
     newFireReport.save().then(() => {
       console.log("Fire report saved");
-      res.status(200).send("Fire report saved");
+      res.status(200).json({message: "Fire report created successfully."});
     });
     
   }

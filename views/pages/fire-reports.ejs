@@ -24,7 +24,7 @@
       <div class="column">
         <h1 class="title is-1 fire-color"> Report a Fire </h1>
         <a class="button is-primary fire-background hover-translate-up" style="margin-bottom: 1em;" onclick="getLocation()"> Get Your Location (requires permission) </a>
-        <p style="display:none; margin-bottom: 1em;" id="locationConfirmation"> Is this the correct location? If not, drag the marker to set the correct location. </p>
+        <p style="display:none; margin-bottom: 1em;" id="locationConfirmation"> Is this where you see the fire? If not, drag the marker to set its correct location. </p>
         <a class="button is-primary hover-translate-up" id="submitLocation" style="display:none;">Submit Report</a>
       </div>
       <div class="column">
@@ -37,6 +37,8 @@
   </div>
   <script>
     mapboxgl.accessToken = "<%= map_token %>";
+
+    var marker;
 
     function getLocation() {
       // request permission to get location if not already
@@ -56,7 +58,7 @@
           zoom: 8.5
         });
 
-        var marker = new mapboxgl.Marker({
+        marker = new mapboxgl.Marker({
           draggable: true
         })
           .setLngLat(userLocation)
@@ -73,6 +75,30 @@
     }
 
     //TODO: SUBMIT MAP LOCATION
+    function submitLocation() {
+      // get location of marker
+      var markerLocation = marker.getLngLat();
+      console.log(markerLocation);
+
+      // send location to server
+      fetch('/fire-report/new', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "longitude": markerLocation.lng,
+          "latitude": markerLocation.lat
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        window.location.href = '/fire-reports-list';
+      })
+    }
+
+    document.getElementById('submitLocation').addEventListener('click', submitLocation);
 
   </script>
 </main>
