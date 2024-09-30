@@ -4,16 +4,8 @@ const mongoose = require("mongoose");
 const fireReportSchema = new mongoose.Schema({
     // fire report fields
     location: {
-        type: {
-            type: String,
-            enum: ["Point"],
-            required: true,
-            default: 'Point'
-        },
-        coordinates: {
-            type: [Number],
-            required: true
-        }
+        type: [Number],
+        required: true
     },
     time: {
         type: Date,

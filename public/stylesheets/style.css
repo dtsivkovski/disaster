@@ -57,3 +57,11 @@ a {
 .hover-translate-up {
   transition: transform 0.3s;
 }
+
+.mapboxgl-popup {
+  color: #000; 
+}
+
+.mapboxgl-popup-content {
+  color: #000; 
+}

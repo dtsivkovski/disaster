@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+</style>
+<head>
+  <%- include('../partials/head'); %>
+  <title>Fire Reports</title>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<script>
+    document.getElementById('reports-nav-item').classList.add('is-active');
+</script>
+
+<main>
+  <div class="jumbotron">
+    <div class="rows">
+        <div class="row">
+        <div class="columns">
+          <div class="column">
+            <h1 class="title is-1 fire-color"> All Reports </h1>
+            <div id="map" style="width: 95%; height: 36em; margin: 2em; border-radius: 1em;"></div>
+          </div>
+        </div>
+        </div>
+        <div class="row">
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Time since</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% reports.forEach((report) => { %>
+                        <tr>
+                            <td><%= report.location[1] %></td>
+                            <td><%= report.location[0] %></td>
+                            <td id="report-timesince-<%= report._id %>"></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+        </div>
+    </div>
+
+     
+  </div>
+  <script>
+    mapboxgl.accessToken = "<%= map_token %>";
+    fire_reports = <%- JSON.stringify(reports) %>;
+
+    // if location is provided, get location for center of map
+    var userLocation = [-117.903663, 33.798444]; // default userMarker location
+
+    // check if user has enabled location service on browser or if supported
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            userLocation = [position.coords.longitude, position.coords.latitude];
+        });
+    } else {
+    }
+
+    // create new map at default location
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: userLocation,
+      zoom: 6
+    });
+
+    var userMarker = new mapboxgl.Marker({
+        draggable: false
+    })
+    .setLngLat(userLocation).addTo(map);
+
+    var userPopUp = new mapboxgl.Popup({ offset: 25 }).setText(
+        'Your location'
+    );
+
+    userMarker.setPopup(userPopUp);
+
+
+    fire_reports.forEach((report) => {
+        // calculate time since report
+        var timeSince = Math.floor((new Date() - new Date(report.time)) / 1000 / 60);
+        var timeValue = "Just now";
+        if (timeSince >= 60 && timeSince < 120) {
+            timeValue = '1 hour ago';
+        } else if (timeSince >= 1440 && timeSince < 2880) {
+            timeValue = '1 day ago';
+        } else if (timeSince >= 2880) {
+            timeValue = Math.floor(timeSince / 1440) + ' days ago';
+        } 
+        else if (timeSince >= 120) {
+            timeValue = Math.floor(timeSince / 60) + ' hours ago';
+        } else if (timeSince < 1) {
+            timeValue = 'Just now';
+        } 
+        else if (timeSince == 1) {
+            timeValue = '1 minute ago';
+        }
+        else {
+            timeValue = timeSince + ' minutes ago';
+        }
+
+        document.getElementById('report-timesince-' + report._id).innerText = timeValue;
+
+        // create custom marker element
+        var el = document.createElement('div');
+        el.style.width='30px';
+        el.style.height='30px';
+        el.style.backgroundImage = 'url(https://em-content.zobj.net/source/apple/391/exclamation-mark_2757.png)';
+        el.style.backgroundSize = '100%';
+        el.className = 'marker';
+
+        el.addEventListener('click', () => {
+            window.alert(marker.properties.message);
+        });
+
+        // disable dragging
+        el.draggable = false;
+
+        var marker = new mapboxgl.Marker(el)
+        .setLngLat(report.location)
+        .addTo(map);
+
+        // give the marker a title on hover
+        var popup = new mapboxgl.Popup({ offset: 25 }).setText(
+            'Reported ' + timeValue
+        );
+
+        marker.setPopup(popup);
+    });
+
+  </script>
+</main>
+
+<footer>
+  
+</footer>
+
+</body>
+</html>
