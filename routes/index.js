@@ -59,4 +59,8 @@ router.get('/fire-report/all', function(req, res, next) {
   });
 });
 
+router.get('/earthquakes', function(req, res, next) {
+  res.render('pages/earthquake', { title: 'Express' });
+});
+
 module.exports = router;
