@@ -11,12 +11,84 @@
   <%- include('../partials/header'); %>
 </header>
 
-<main>
-  <div class="jumbotron">
-    <h1> HELLO!!! </h1>
-    <p>This is the home page for wildfire and earthquake disaster response</p>
-    <p> There will be information and buttons on here</p>
-  </div>
+<style>
+  body {
+    background-image: conic-gradient(#e13d3d, #d37930, #838383, #838383, #d37930, #e13d3d);
+    display: flex;
+    flex-direction: column;
+  }
+  .button {
+    transition: transform 0.2s;
+  }
+  .button:hover {
+    transform: scale(1.1);
+  }
+
+  .text-shadow {
+    text-shadow: black 0px 4px 10px;
+  }
+  .drop-shadow {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.493);
+  }
+  #autotype {
+    min-height: 45.15px;
+  }
+  #h-100 {
+    height: 100%;
+    flex: 1;
+  }
+  main {
+    flex: 1;
+  }
+</style>
+
+<main class="flex h-100">
+    <div class="flex h-100 justify-content-center align-content-center has-text-centered pt-6">
+      <h1 class="is-size-1 pt-6 text-shadow has-text-white">Earthquakes and Wildfires</h1>
+      <p class="is-size-4 pt-4 text-shadow has-text-white" id="autotype"> </p>
+      <div class="flex justify-content-center align-content-center has-text-centered pt-6">
+        <a href="/earthquakes" class="button is-warning is-large m-6 drop-shadow">Earthquakes</a>
+        <a href="/wildfires" class="button is-danger is-large m-6 drop-shadow">Wildfires</a>
+        <a href="/fire-reports" class="button is-warning is-large m-6 drop-shadow">Report a fire</a>
+      </div>
+    </div>
+  <script>
+    var i = 1;
+    var j = 0;
+    var messages = [" Find wildfire resources",
+    " Find earthquake resources",
+    " See nearby user reports",
+    " Report a fire near you",
+    " Find resources from your government"
+  ];
+    var speed = 30;
+
+    function typeWriter() {
+      txt = messages[j];
+      if (i < txt.length) {
+        document.getElementById("autotype").innerHTML += txt.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+      else {
+        setTimeout(undoTypeWriter, 3000);
+      }
+    }
+    function undoTypeWriter() {
+      txt = messages[j];
+      if (i > 1) {
+        document.getElementById("autotype").innerHTML = txt.substring(0, i - 1);
+        i--;
+        setTimeout(undoTypeWriter, speed);
+      }
+      else {
+        j = (j + 1) % messages.length;
+        setTimeout(typeWriter, 100);
+      }
+    }
+
+    typeWriter();
+  </script>
 </main>
 
 <footer>

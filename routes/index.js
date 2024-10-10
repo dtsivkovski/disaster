@@ -10,6 +10,10 @@ router.get('/', function(req, res, next) {
   res.render('pages/index', { title: 'Express' });
 });
 
+router.get('/wildfires', function(req, res, next) {
+  res.render('pages/wildfires', { title: 'Express' });
+});
+
 /* GET reports page. */
 router.get('/fire-reports', function(req, res, next) {
   res.render('pages/fire-reports', { map_token: map_token });
