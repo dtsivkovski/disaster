@@ -1,8 +1,30 @@
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<style>
+  .navbar-item {
+    background-color: hsl(0, 0%, 96%) !important;
+    color: black;
+    padding: 0.25em 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    border-radius: 1em;
+  }
+  .navbar-item:hover {
+    background-color: hsl(29, 100%, 71%) !important;
+  }
+  .navbar-title {
+    background-color: transparent !important;
+  }
+  .navbar-title:hover {
+    background-color: transparent !important;
+  }
+</style>
+
+<nav class="navbar has-background-transparent" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">
-        <img src="images/fire_icon.png" alt="logo" width="28" height="28">
-        <h4 class="title is-4">Disaster Support</h4>
+      <a class="navbar-item navbar-title" href="/">
+        <img src="images/house-icon.png" alt="logo" width="28" height="28">
+        <h4 class="title is-4 text-shadow">Disaster Support</h4>
       </a>
   
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -16,11 +38,16 @@
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
   
-        <a class="navbar-item" id="reports-nav-item" href="/fire-reports">
+        
+
+      </div>
+  
+      <div class="navbar-end">
+        <a class="navbar-item drop-shadow" id="reports-nav-item" href="/fire-reports">
           Reports
         </a>
   
-        <div class="navbar-item has-dropdown is-hoverable">
+        <!-- <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
             Resources
           </a>
@@ -40,12 +67,14 @@
               Report an issue
             </a>
           </div>
-        </div>
-      </div>
-  
-      <div class="navbar-end">
-        <div class="navbar-item">
-        </div>
+        </div> -->
+
+        <a class="navbar-item drop-shadow" href="/wildfires">
+          Wildfires
+        </a>  
+        <a class="navbar-item drop-shadow" href="/earthquakes">
+          Earthquakes
+        </a>
       </div>
     </div>
   </nav>
