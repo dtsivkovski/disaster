@@ -3,17 +3,9 @@
 <head>
   <%- include('../partials/head'); %>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      margin: 20px;
-      background-color: #000000;
-      color: rgb(0, 0, 0); /* Set text color to black */
-    }
     .jumbotron {
-      background-color: #000000;
       border-radius: 8px;
-      padding: 20px;
+      padding: 5em 10em;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
     }
@@ -24,6 +16,12 @@
     }
     h2 {
       font-size: 1.8em;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    h3 {
+      font-size: 1.5em;
       font-weight: bold;
       margin-top: 20px;
       margin-bottom: 10px;
@@ -49,76 +47,108 @@
 
 <main>
   <div class="jumbotron">
-    <h2>Background</h2>
+    <h1>Wildfires</h1>
     <p>Wildfires typically start small and are typically caused by lightning that engulfs everything in its path in flames. As people start to expand the regions in which they build homes, they are becoming more frequent throughout the years. It is very important, especially in areas where wildfires are common, to prepare ahead of time.</p>
 
-    <h2>Preparations Before Wildfire</h2>
-    <ul>
-      <li>Assemble a disaster kit:
+
+    <div class="columns pt-3">
+      <div class="column p-1">
+        <h2>Preparations Before Wildfire</h2>
+        <ul class="pt-2">
+          <li>Assemble a disaster kit:
+            <ul class="pt-2">
+              <li>Water</li>
+              <li>Food</li>
+              <li>Fire blanket</li>
+              <li>Money</li>
+              <li>First aid materials:
+                <ul class="pt-2">
+                  <li>Bandages of many sizes</li>
+                  <li>Antibiotic and burn ointments</li>
+                  <li>Aspirin and pain relievers</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>Have an evacuation plan in place</li>
+          <li>Design your home with fire-resistant materials and plants</li>
+          <li>Have a fire extinguisher and know how to use it</li>
+          <li>Ensure smoke alarms are installed</li>
+        </ul>
+      </div>
+      <div class="column p-1 is-flex is-justify-content-center is-align-content-center my-auto">
+        <img src="https://ca-times.brightspotcdn.com/dims4/default/89a9f05/2147483647/strip/true/crop/5842x3067+0+414/resize/1200x630!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F7f%2F46%2Ff5c5b8714dadb8b70f8ec0bd2074%2Fcalifornia-wildfires-23877.jpg" alt="Wildfire">
+      </div>
+    </div> 
+
+    <div class="columns pt-3">
+      <div class="column p-1 is-flex is-justify-content-center is-align-content-center my-auto">
+        <img src="/images/marc-obiols-Sdpo0jaMfQI-unsplash-medium.jpg" alt="Wildfire">
+      </div>  
+      <div class="column p-1">
+        <h2>What to do During a Wildfire</h2>
         <ul>
-          <li>Water</li>
-          <li>Food</li>
-          <li>Fire blanket</li>
-          <li>Money</li>
-          <li>First aid materials:
-            <ul>
-              <li>Bandages of many sizes</li>
-              <li>Antibiotic and burn ointments</li>
-              <li>Aspirin and pain relievers</li>
+          <li>Evacuate immediately if the situation becomes unsafe, and follow your evacuation plan</li>
+          <li>Wear clothing that is protective and limits exposure to smoke</li>
+          <li>Turn off any natural gas inside the house</li>
+          <li>Fill as many nearby trashcans, pools, or bins full of water and soak the house if possible</li>
+          <li>Close all windows and doors</li>
+    
+          <li>If trapped inside your house:
+            <ul class="pt-2">
+              <li>Stay inside the middle of the house away from walls</li>
+              <li>Close and lock all doors and windows</li>
+            </ul>
+          </li>
+    
+          <li>If trapped inside your car:
+            <ul class="pt-2">
+              <li>Do not leave the vehicle</li>
+              <li>Roll up all windows</li>
+              <li>Drive slowly and try to avoid driving through heavy smoke</li>
+              <li>If you must park, do so away from any bushes or trees that could catch on fire and turn off the vehicle</li>
+            </ul>
+          </li>
+    
+          <li>If you are stuck outside:
+            <ul class="pt-2">
+              <li>Try to find a ditch that you can cover yourself in and shield yourself from the heat</li>
             </ul>
           </li>
         </ul>
-      </li>
-      <li>Have an evacuation plan in place</li>
-      <li>Design your home with fire-resistant materials and plants</li>
-      <li>Have a fire extinguisher and know how to use it</li>
-      <li>Ensure smoke alarms are installed</li>
-    </ul>
+      </div>
+    </div>
 
-    <img src="https://ca-times.brightspotcdn.com/dims4/default/89a9f05/2147483647/strip/true/crop/5842x3067+0+414/resize/1200x630!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F7f%2F46%2Ff5c5b8714dadb8b70f8ec0bd2074%2Fcalifornia-wildfires-23877.jpg" alt="Wildfire Map" width="75%" height="75%">
-
-    <h2>What to do During a Wildfire</h2>
-    <ul>
-      <li>Evacuate immediately if the situation becomes unsafe, and follow your evacuation plan</li>
-      <li>Wear clothing that is protective and limits exposure to smoke</li>
-      <li>Turn off any natural gas inside the house</li>
-      <li>Fill as many nearby trashcans, pools, or bins full of water and soak the house if possible</li>
-      <li>Close all windows and doors</li>
-
-      <li>If trapped inside your house:
-        <ul>
-          <li>Stay inside the middle of the house away from walls</li>
-          <li>Close and lock all doors and windows</li>
-        </ul>
-      </li>
-
-      <li>If trapped inside your car:
-        <ul>
-          <li>Do not leave the vehicle</li>
-          <li>Roll up all windows</li>
-          <li>Drive slowly and try to avoid driving through heavy smoke</li>
-          <li>If you must park, do so away from any bushes or trees that could catch on fire and turn off the vehicle</li>
-        </ul>
-      </li>
-
-      <li>If you are stuck outside:
-        <ul>
-          <li>Try to find a ditch that you can cover yourself in and shield yourself from the heat</li>
-        </ul>
-      </li>
-    </ul>
+    
 
     <h2>What To Do After a Wildfire</h2>
-    <ul>
-      <li>Do not return home until you have received official notice that it is safe to do so</li>
-      <li>Be cautious before stepping foot into any burnt structure</li>
-      <li>Wear protective clothing</li>
-      <li>Make sure there is no smoke or embers in the home; if so, leave immediately</li>
-      <li>Water down debris to minimize harmful dust particles</li>
-      <li>Dispose of any trees that have been burnt in the fire and could potentially be dangerous</li>
-      <li>Dispose of any food that had exposure to the heat</li>
-      <li>Inform yourself on other disasters and proceed accordingly</li>
-    </ul>
+    <div class="columns">
+      <div class="column">
+        <h3>DON'T</h3>
+        <ul style="color: rgb(247, 99, 99)">
+          <li>Return home before authorities say that it is safe to do so</li>
+          <li>Enter any burnt structure recklessly</li>
+          <li>Wear clothing that does not protect you</li>
+          <li>Stay in a building that has smoke or embers and disregard their presence</li>
+          <li>Let dangerous dust from debris sit around and risk being kicked up</li> 
+          <li>Keep trees that have been burnt and could potentially be dangerous to you or others</li>
+          <li>Keep food that has been exposed to the heat or fire</li>
+          <li>Ignore other disasters that could be happening</li>
+      </div>
+      <div class="column">
+        <h3>DO</h3>
+        <ul style="color: rgb(116, 227, 112)">
+          <li>Return home only when authorities say it is safe to do so</li>
+          <li>Be cautious before stepping foot into any burnt structure</li>
+          <li>Wear protective clothing</li>
+          <li>Make sure there is no smoke or embers in the home; if so, leave immediately</li>
+          <li>Water down debris to minimize harmful dust particles</li>
+          <li>Dispose of any trees that have been burnt in the fire and could potentially be dangerous</li>
+          <li>Dispose of any food that had exposure to the heat</li>
+          <li>Inform yourself on other disasters and proceed accordingly</li>
+        </ul>
+      </div>
+    </div>  
   </div>
 
 </main>
