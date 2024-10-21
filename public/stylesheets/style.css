@@ -1,8 +1,11 @@
 body {
   font: 1em "Lucida Grande", Helvetica, Arial, sans-serif;
-  background: linear-gradient(0deg,#1c1c1c 0%, #1c1c1c 100%);
+  background: linear-gradient(0deg,#1c1c1c 100%, #1c1c1c 100%);
   min-height: 100vh;
   max-width: 100vw;
+}
+html {
+  background-color: #1c1c1c;
 }
 
 .jumbotron {
