@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+  <style>
+    .jumbotron {
+      border-radius: 8px;
+      padding: 5em 10em;
+    }
+    h1 {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 1.8em;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    h3 {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin-bottom: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    p {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<script>
+    document.getElementById('wildfires-nav-item').classList.add('is-active');
+</script>
+
+
+<main>
+  <div class="jumbotron">
+    <h1>Test your wildfire knowledge</h1>
+    <div class="is-flex is-flex-row is-align-content-center">
+        <p class="pt-3">The answer to this problem is the</p>
+        <div class="select px-2">
+            <select id="select-dropdown-1">
+                <option value="1">Answer 1</option>
+                <option value="2">Answer 2</option>
+            </select>
+        </div>
+        <p class="pt-3">answer</p>    
+    </div>
+  </div>
+
+</main>
+
+
+<script>
+    document.getElementById('select-dropdown-1').addEventListener('change', function() {
+        var selectedValue = document.getElementById('select-dropdown-1').value;
+        if (selectedValue === '1') {
+            //! Luke can do something here
+            alert('Correct!');
+        } else {
+            //! Luke can do something here
+            alert('Incorrect!');
+        }
+    });
+    
+</script>
+
+<footer>
+  
+</footer>
+
+</body>
+</html>

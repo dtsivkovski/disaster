@@ -14,6 +14,10 @@ router.get('/wildfires', function(req, res, next) {
   res.render('pages/wildfires', { title: 'Express' });
 });
 
+router.get('/wildfire-games', function(req, res, next) {
+  res.render('pages/wildfire-games', { title: 'Express' });
+});
+
 /* GET reports page. */
 router.get('/fire-reports', function(req, res, next) {
   res.render('pages/fire-reports', { map_token: map_token });
