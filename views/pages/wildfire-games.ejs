@@ -52,14 +52,20 @@
   <div class="jumbotron">
     <h1>Test your wildfire knowledge</h1>
     <div class="is-flex is-flex-row is-align-content-center">
-        <p>The answer to this problem is the</p>
+        <p>What should be in your disaster kit?</p></div>
+        <p>1. Money</p></br>
+        <p>2. Water</p><br>
+        <p>3. Food</p><br>
+        <p>4. All of the above</p><br>
+        <p>The answer to this problem is:</p>
         <div class="select px-2">
             <select id="select-dropdown-1">
                 <option value="1">Answer 1</option>
                 <option value="2">Answer 2</option>
+                <option value="3">Answer 3</option>
+                <option value="4">Answer 4</option>
             </select>
-        </div>
-        <p>answer</p>    
+        </div>   
     </div>
   </div>
 
@@ -70,11 +76,14 @@
     document.getElementById('select-dropdown-1').addEventListener('change', function() {
         var selectedValue = document.getElementById('select-dropdown-1').value;
         if (selectedValue === '1') {
-            //! Luke can do something here
-            alert('Correct!');
-        } else {
-            //! Luke can do something here
             alert('Incorrect!');
+        } else if (selectedValue === '2') {
+            alert('Incorrect!');
+        } else if (selectedValue === '3') {
+            alert('Incorrect!');
+        } else if (selectedValue === '4') {
+            alert('Correct!');
+            
         }
     });
     
