@@ -51,41 +51,70 @@
   <div class="jumbotron">
     <h1>Test your wildfire knowledge</h1>
     <div class="is-flex is-flex-row is-align-content-center">
-      <p1>What should be in your disaster kit?</p>
-      <p2>1. Water</p>
-      <p3>2. Food</p>
-      <p4>3. Flashlight</p>
-      <p5>4. All of the above</p>
-      <p6>The answer to this problem is:</p>
+      <p id="question"></p>
       <div class="select px-2">
-        <select id="select-dropdown-1">
-          <option value="1">Answer 1</option>
-          <option value="2">Answer 2</option>
-          <option value="3">Answer 3</option>
-          <option value="4">Answer 4</option>
+        <select id="select-dropdown">
+          <option value="">Select an answer</option>
         </select>
       </div>  
     </div>
   </div>
 </main>
 
-
-
 <script>
-    document.getElementById('select-dropdown-1').addEventListener('change', function() {
-        var selectedValue = document.getElementById('select-dropdown-1').value;
-        if (selectedValue === '1') {
-            alert('Incorrect!');
-        } else if (selectedValue === '2') {
-            alert('Incorrect!');
-        } else if (selectedValue === '3') {
-            alert('Incorrect!');
-        } else if (selectedValue === '4') {
+    const questions = [
+        {
+            "question": "What should be in your disaster kit?",
+            "options": ["Select Answer", "Water", "Food", "Flashlight", "All of the above"],
+            "correctAnswer": 5
+        },
+        {
+            "question": "Where should you go if you get trapped inside your house during a wildfire?",
+            "options": ["Select Answer", "The roof", "The middle of the house", "Against the Walls", "None of the above"],
+            "correctAnswer": 3
+        },
+        {
+            "question": "Does a wildfire affect food inside a house?",
+            "options": ["Select Answer", "Yes", "No", "Only icecream"],
+            "correctAnswer": 2
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+
+    function loadQuestion() {
+        const currentQuestion = questions[currentQuestionIndex];
+        document.getElementById('question').innerText = currentQuestion.question;
+        
+        const dropdown = document.getElementById('select-dropdown');
+        dropdown.innerHTML = ''; // Clear previous options
+        currentQuestion.options.forEach((option, index) => {
+            const opt = document.createElement('option');
+            opt.value = index + 1; // Options are 1-indexed
+            opt.innerText = option;
+            dropdown.appendChild(opt);
+        });
+    }
+
+    document.getElementById('select-dropdown').addEventListener('change', function() {
+        const selectedValue = parseInt(this.value);
+        const currentQuestion = questions[currentQuestionIndex];
+
+        if (selectedValue === currentQuestion.correctAnswer) {
             alert('Correct!');
-            
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                alert('Quiz completed!');
+            }
+        } else {
+            alert('Incorrect! Try again.');
         }
     });
-    
+
+    // Load the first question on page load
+    loadQuestion();
 </script>
 
 <footer>
