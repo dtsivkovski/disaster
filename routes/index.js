@@ -67,4 +67,8 @@ router.get('/earthquakes', function(req, res, next) {
   res.render('pages/earthquake', { title: 'Express' });
 });
 
+router.get('/tsunamis', function(req, res, next) {
+  res.render('pages/tsunami', { title: 'Express' });
+});
+
 module.exports = router;
