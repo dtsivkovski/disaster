@@ -49,19 +49,89 @@
   .navbar-title h4 {
     color: #354053 !important;
   }
+
+  .shake-horizontal {
+    animation: shake-horizontal 0.8s cubic-bezier(.36,.07,.19,.97) both;
+  }
+
+  .fire-animation {
+    animation: fire-animation 0.6s cubic-bezier(.36,.07,.19,.97) both;
+  }
+
+  @keyframes shake-horizontal {
+    10%, 30%, 50%, 70%, 90% {
+      transform: translateX(-10px);
+    }
+    20%, 40%, 60%, 80%, 100% {
+      transform: translateX(10px);
+    }
+    80% {
+      opacity: 100%;
+    }
+    90% {
+      opacity: 50%;
+    }
+    100% {
+      opacity: 0%;
+    }
+  }
+
+  @keyframes fire-animation {
+    /* animation that looks like filling with smoke */
+    0% {
+      filter: none;
+    }
+    20% {
+      filter: blur(1px) grayscale(20%) sepia(50%) hue-rotate(-25deg) saturate(200%);
+    }
+
+    80% {
+      opacity: 100%;
+    }
+    90% {
+      opacity: 50%;
+    }
+    100% {
+      opacity: 0%;
+      filter: blur(3px) grayscale(100%) brightness(0.2) sepia(100%) hue-rotate(-25deg) saturate(200%);
+    }
+  }
+
 </style>
 
 <script>
   document.getElementById('navbar-end-element').classList.add('is-hidden');
+
+  function playEarthquakeShakeAnimation() {
+    body = document.querySelector('body');
+    body.classList.add('shake-horizontal');
+    setTimeout(() => {
+      document.querySelector('nav').classList.add('shake-horizontal');
+    }, 75);
+    setTimeout(() => {
+      document.querySelector('#buttonsGroup').classList.add('shake-horizontal');
+    }, 175);
+    setTimeout(() => {
+      window.location.href="/earthquakes";
+    }, 800);
+  }
+
+  function playWildfireAnimation() {
+    body = document.querySelector('body');
+    body.classList.add('fire-animation');
+    setTimeout(() => {
+      window.location.href="/wildfires";
+    }, 800);
+  }
 </script>
 
 <main class="flex h-100">
     <div class="flex h-100 justify-content-center align-content-center has-text-centered pt-6">
       <h1 class="is-size-1 pt-6 text-shadow" style="color: #354053">Earthquakes and Wildfires</h1>
       <p class="is-size-4 pt-4 text-shadow" style="color: #4e5564" id="autotype"> </p>
-      <div class="flex justify-content-center align-content-center has-text-centered pt-6">
-        <a href="/earthquakes" class="button button-mainstyle is-large m-6 drop-shadow">Earthquakes</a>
-        <a href="/wildfires" class="button button-mainstyle is-large m-6 drop-shadow">Wildfires</a>
+      <div class="flex justify-content-center align-content-center has-text-centered pt-6" id="buttonsGroup">
+        <a onclick="playEarthquakeShakeAnimation()" class="button button-mainstyle is-large m-6 drop-shadow">Earthquakes</a>
+        <a onclick="playWildfireAnimation()" class="button button-mainstyle is-large m-6 drop-shadow">Wildfires</a>
         <a href="/fire-reports" class="button button-mainstyle is-large m-6 drop-shadow">Report a fire</a>
       </div>
     </div>
