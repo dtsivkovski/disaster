@@ -10,6 +10,15 @@ const fireReportSchema = new mongoose.Schema({
     time: {
         type: Date,
         required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now, 
+        immutable: true    
+    },
+    dislikes: {
+        type: Number,
+        default: 0 
     }
 });
 
