@@ -1,6 +1,7 @@
 // mongoDB connection
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const mongoose = require('mongoose');
+const startDeletionJob = require("./routes/deleteDislikedReports.js");
 
 // express loggers
 var createError = require('http-errors');
@@ -38,7 +39,10 @@ app.use('/users', usersRouter);
 mongoose.connect(MONGO_URI);
 mongoose.connection.on('connected', () => {
   console.log('Connected to MongoDB');
+  startDeletionJob();
 });
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
