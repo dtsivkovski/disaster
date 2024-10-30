@@ -29,25 +29,6 @@
           </div>
         </div>
         </div>
-        <div class="row">
-            <table class="table is-fullwidth">
-                <thead>
-                    <tr>
-                        <th>Latitude</th>
-                        <th>Longitude</th>
-                        <th>Time since</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% reports.forEach((report) => { %>
-                        <tr>
-                            <td><%= report.location[1] %></td>
-                            <td><%= report.location[0] %></td>
-                            <td id="report-timesince-<%= report._id %>"></td>
-                        </tr>
-                    <% }); %>
-                </tbody>
-        </div>
     </div>
 
      
@@ -111,8 +92,6 @@
             timeValue = timeSince + ' minutes ago';
         }
 
-        document.getElementById('report-timesince-' + report._id).innerText = timeValue;
-
         // create custom marker element
         var el = document.createElement('div');
         el.style.width='30px';
@@ -129,12 +108,41 @@
         .addTo(map);
 
         // give the marker a title on hover
-        var popup = new mapboxgl.Popup({ offset: 25 }).setText(
-            'Reported ' + timeValue
-        );
+        var popupContent = `
+            <div style="text-align: center;">
+                <p class="is-size-6">Reported ${timeValue}</p>
+                <button class="button is-link mt-2 dislike-btn" data-id="${report._id}">👎 No fire there</button>
+            </div>
+        `;
 
+        // Attach popup with custom HTML
+        var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
         marker.setPopup(popup);
+
+        // Add event listener to handle button clicks after the popup is added to the DOM
+        popup.on('open', () => {
+            document.querySelector(`.dislike-btn[data-id="${report._id}"]`).addEventListener('click', () => {
+                handleDislike(report._id);
+                button = document.querySelector(`.dislike-btn[data-id="${report._id}"]`);
+                button.disabled = true;
+                button.textContent = 'Thanks!';
+
+            });
+        });
     });
+
+    function handleDislike(id) {
+        fetch(`/fire-report/${id}/dislike`, {
+            method: 'POST'
+        })
+        .then((response) => {
+            if (response.ok) {
+                alert('Report disliked');
+            } else {
+                alert('Failed to dislike report');
+            }
+        });
+    }
 
   </script>
 </main>

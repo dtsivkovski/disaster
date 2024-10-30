@@ -63,6 +63,36 @@ router.get('/fire-report/all', function(req, res, next) {
   });
 });
 
+// POST route to handle dislikes
+router.post("/fire-report/:id/dislike", async (req, res) => {
+  try {
+      const reportId = req.params.id;
+
+      // Find the report by ID and increment dislikes
+      const report = await FireReport.findById(reportId);
+      if (!report) {
+          return res.status(404).json({ success: false, message: "Report not found" });
+      }
+
+      report.dislikes += 1;
+
+      // Check if dislikes count reaches 3
+      if (report.dislikes >= 3) {
+          // Delete the report if dislikes are 3 or more
+          await report.deleteOne();
+          return res.status(200).json({ success: true, message: "Report deleted due to dislikes" });
+      } else {
+          // Otherwise, save the updated report with the incremented dislikes
+          await report.save();
+          return res.status(200).json({ success: true, message: "Dislike recorded" });
+      }
+  } catch (error) {
+      console.error("Error handling dislike:", error);
+      return res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+
 router.get('/earthquakes', function(req, res, next) {
   res.render('pages/earthquake', { title: 'Express' });
 });
