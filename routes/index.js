@@ -94,7 +94,7 @@ router.post("/fire-report/:id/dislike", async (req, res) => {
 
 
 router.get('/earthquakes', function(req, res, next) {
-  res.render('pages/earthquake', { title: 'Express' });
+  res.render('pages/earthquake', { map_token: map_token });
 });
 
 router.get('/tsunamis', function(req, res, next) {

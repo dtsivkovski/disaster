@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
   <%- include('../partials/head'); %>
+  <title>Earthquakes</title>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
   <style>
     .jumbotron {
       border-radius: 8px;
@@ -43,27 +46,67 @@
   <%- include('../partials/header'); %>
 </header>
 
+<script>
+  document.getElementById('earthquakes-nav-item').classList.add('is-active');
+</script>
+
 <main>
   <div class="jumbotron">
     <h1> Earthquakes </h1>
-    <img src="https://cdn-images-1.medium.com/max/1600/0*tAAY-S5oNuSSL0GI.jpg" alt = "Earthquake" width = "50%">
+
+    <div class="columns pt-3">
+      <div class="column p-3">
+        <img src="https://cdn-images-1.medium.com/max/1600/0*tAAY-S5oNuSSL0GI.jpg" alt = "Earthquake" width="99%">
+      </div>
+      <div class="column p-3 pl-5 ml-2">
+        <h2> What to do during an earthquake</h2>
+        <ol>
+          <li>Drop down on to the ground </li>
+          <li>Crawl on your hand and knees to a sturdy structure like a desk or bed and hide under it making sure to cover your head neck </li>
+          <li>Hold on to the sturdy structure </li>
+          <li>Wait, as most earthquakes only last 10-30 seconds</li>
+        </ol>
+      </div>
+    </div>
     <ul>
-      <h2> What to do during an earthquake</h2>
-      <ol>
-        <li>Drop down on to the ground </li>
-        <li>Crawl on your hand and knees to a sturdy structure like a desk or bed and hide under it making sure to cover your head neck </li>
-        <li>Hold on to the sturdy structure </li>
-        <li>Wait, as most earthquakes only last 10-30 seconds</li>
-      </ol>
       <h2> General Information</h2>
-        <li> Earthquakes are the shaking of the earth's surface caused by a sudden release of energy in the lithosphere that creates seismic waves </li>
-        <li> The lithosphere is the layer of earth comprised of the crust and the uppermost part of the mantle</li>
-        <li> Other name for earthquakes</li>
-          <li> Quake: The general name for this phenomenon as quakes on moon are referred to as moonquakes and on mars they are marsquakes so on earth its earthquakes</li>
-          <li> Tremor: The word tremor may also be used for non-earthquake seismic rumbles</li>
-          <li> Tremblor: Earth tremor</li>
-        <li> The largest earthquakes that has been measured on a seismograph was 9.5 known as the 1960 Chilean earthquake on May 22,1960</li>
-        <li> The 1556 Shaanxi Earthquake has the most fatalities at over 830,000 fatalities</li>
+      <div class="columns pt-2">
+        <div class="column p-3 is-flex is-flex-direction-column is-justify-content-center is-align-content-center my-auto is">
+          <li> Earthquakes are the shaking of the earth's surface caused by a sudden release of energy in the lithosphere that creates seismic waves </li>
+          <li> The lithosphere is the layer of earth comprised of the crust and the uppermost part of the mantle</li>
+          <li> The largest earthquakes that has been measured on a seismograph was 9.5 known as the 1960 Chilean earthquake on May 22,1960</li>
+          <li> The 1556 Shaanxi Earthquake has the most fatalities at over 830,000 fatalities</li>
+        </div>
+        <div class="column p-3">
+          <h3> Other names for earthquakes</h3>
+          <table class="table">
+            <tr>
+              <td>
+                Quake
+              </td>
+              <td>
+                The general name for this phenomenon, as quakes on moon are referred to as <i>moonquakes</i>, on Mars they are <i>marsquakes</i>, and on Earth they are <i>earthquakes</i>.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Tremor
+              </td>
+              <td>
+                The word tremor may also be used for non-earthquake seismic rumbles
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Tremblor
+              </td>
+              <td>
+                Earth tremor
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
       <h2>How Earthquakes are measured </h2>
         <li> The intensity and magnitude of an earthquake varies from those that can’t be felt to those strong enough to propel people or objects into the air and cause major destruction</li>
         <li> Intensity would measure the amount of shaking caused by an earthquake</li>
@@ -75,7 +118,117 @@
           <li> The moment magnitude scale ranges from -2.0 to 9.9 and measures the total energy released by the earthquake</li>
           <li> The two scales have similar magnitudes from 3.0 to 7.0</li>
         <li> The USGS website has a live tracker of all earthquakes </li>
-        <a href="https://earthquake.usgs.gov/earthquakes/map/?extent=-80.53207,-364.92188&extent=84.16085,119.88281" class="button"> Live Tracker</a>
+        <div id="map" style="width: 95%; height: 50em; margin: 2em; border-radius: 1em;"></div>
+        <script>
+
+          mapboxgl.accessToken = "<%= map_token %>";
+
+          // if location is provided, get location for center of map
+          var userLocation = [-117.903663, 33.798444]; // default userMarker location
+
+          // check if user has enabled location service on browser or if supported
+          if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition((position) => {
+                  userLocation = [position.coords.longitude, position.coords.latitude];
+              });
+          } else {
+          }
+
+          // create new map at default location
+          var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: userLocation,
+            zoom: 6,
+            projection: 'globe'
+          });
+
+          var userMarker = new mapboxgl.Marker({
+              draggable: false
+          })
+          .setLngLat(userLocation).addTo(map);
+
+          var userPopUp = new mapboxgl.Popup({ offset: 25 }).setText(
+              'Your location'
+          );
+
+          userMarker.setPopup(userPopUp);
+
+          earthquake_reports_json = async () => {
+            const date = new Date();
+            const date_5_days_ago = new Date(date.setDate(date.getDate() - 5));
+
+
+            const formatDate = (d) => {
+              const year = d.getFullYear();
+              const month = String(d.getMonth() + 1).padStart(2, '0');
+              const day = String(d.getDate()).padStart(2, '0');
+              return `${year}-${month}-${day}`;
+            };
+
+            // get date strings in yyyy-mm-dd format
+            const date_str = formatDate(new Date());
+            const date_5d_str = formatDate(date_5_days_ago);
+
+            // get earthquake data from USGS using fetch
+            const response = await fetch(`https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${date_5d_str}&endtime=${date_str}&minmagnitude=4`);
+            const data = await response.text();
+
+            return JSON.parse(data);
+          }
+
+          const earthquake_reports = earthquake_reports_json().then(earthquakes => {
+            console.log(earthquakes);
+
+            earthquakes.features.forEach((earthquake) => {
+
+              // customer marker size based on magnitude (lowest is 4.0)
+              const magnitudeFactor = (earthquake.properties.mag - 4) / 4;
+              const markerSize = 5 + (magnitudeFactor * 40);
+
+              // create a HTML element for each feature
+              var el = document.createElement('div');
+              el.style.width=markerSize + 'px';
+              el.style.height=markerSize + 'px';
+              el.style.backgroundImage = 'url(https://em-content.zobj.net/source/openmoji/384/large-red-circle_1f534.png)';
+              el.style.backgroundSize = '100%';
+              el.className = 'marker';
+
+              // make a marker for each feature and add to the map
+              const marker = new mapboxgl.Marker(el)
+              .setLngLat([earthquake.geometry.coordinates[0], earthquake.geometry.coordinates[1]])
+              .addTo(map);
+
+              // give the marker a popup
+              var popupContent = `
+                  <div style="text-align: center;">
+                      <p class="is-size-6">Magnitude ${earthquake.properties.mag}, ${earthquake.properties.place}</p>
+                      <button class="button is-link mt-2 dislike-btn" onclick="location.href='${earthquake.properties.url}'">See more</button>
+                  </div>
+              `;
+
+              // Attach popup with custom HTML
+              var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
+              marker.setPopup(popup);
+
+              // Add event listener to handle button clicks after the popup is added to the DOM
+              popup.on('open', () => {
+                  document.querySelector(`.dislike-btn[data-id="${report._id}"]`).addEventListener('click', () => {
+                      handleDislike(report._id);
+                      button = document.querySelector(`.dislike-btn[data-id="${report._id}"]`);
+                      button.disabled = true;
+                      button.textContent = 'Thanks!';
+
+                  });
+              });
+
+            });
+
+          }).catch(error => {
+            console.error('Error fetching earthquake data:', error);
+          });
+        </script>
+        <a href="https://earthquake.usgs.gov/earthquakes/map/?extent=-80.53207,-364.92188&extent=84.16085,119.88281" class="button">USGS's Official Earthquake Tracker</a>
       <h2> What Causes Earthquakes</h2>
         <li> Earthquakes can be naturally caused or artificially caused</li>
         <li> Artificially caused earthquakes occur due to mining, fracking, and nuclear tests</li>
