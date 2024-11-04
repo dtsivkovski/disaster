@@ -238,11 +238,17 @@
             .setLngLat([earthquake.geometry.coordinates[0], earthquake.geometry.coordinates[1]])
             .addTo(map);
 
+            // create a URL to redirect to the felt it page
+            const feltItUrl = earthquake.properties.url + '/tellus';
+
             // give the marker a popup
             var popupContent = `
-                <div style="text-align: center;">
-                    <p class="is-size-6">Magnitude ${earthquake.properties.mag}, ${earthquake.properties.place}</p>
-                    <button class="button is-link mt-2 dislike-btn" onclick="window.open('${earthquake.properties.url}', '_blank')">More details</button>
+                <div class="p-2" style="text-align: center;">
+                    <p class="is-size-6"><b>Magnitude ${earthquake.properties.mag}</b></p>
+                    <p class="is-size-6"> ${earthquake.properties.place}</p>
+                    <p class="is-size-7">${new Date(earthquake.properties.time).toLocaleString()}</p>
+                    <button class="button is-link mt-2 dislike-btn" onclick="window.open('${earthquake.properties.url}', '_blank')"><i class="fa-solid fa-info mr-3"></i> More details</button>
+                    <button class="button is-link mt-2" onclick="window.open('${feltItUrl}', '_blank')">🫨 I felt it!</button>
                 </div>
             `;
 
