@@ -57,9 +57,16 @@
       projection: 'globe'
     });
 
-    var userMarker = new mapboxgl.Marker({
-        draggable: false
-    })
+    // user marker custom
+    var userEl = document.createElement('div');
+    userEl.style.width='20px';
+    userEl.style.height='20px';
+    userEl.style.backgroundImage = 'url(https://em-content.zobj.net/source/emojidex/112/large-blue-circle_1f535.png)';
+    userEl.style.backgroundSize = '100%';
+    userEl.className = 'marker';
+    userEl.draggable = false;
+
+    var userMarker = new mapboxgl.Marker(userEl)
     .setLngLat(userLocation).addTo(map);
 
     var userPopUp = new mapboxgl.Popup({ offset: 25 }).setText(
@@ -96,7 +103,7 @@
         var el = document.createElement('div');
         el.style.width='30px';
         el.style.height='30px';
-        el.style.backgroundImage = 'url(https://em-content.zobj.net/source/apple/391/exclamation-mark_2757.png)';
+        el.style.backgroundImage = 'url(https://em-content.zobj.net/source/animated-noto-color-emoji/356/fire_1f525.gif)';
         el.style.backgroundSize = '100%';
         el.className = 'marker';
 
