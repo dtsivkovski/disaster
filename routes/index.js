@@ -101,4 +101,7 @@ router.get('/tsunamis', function(req, res, next) {
   res.render('pages/tsunami', { title: 'Express' });
 });
 
+router.get('/earthquakequiz', function(req, res, next) {
+    res.render('pages/earthquake-quiz', { title: 'Express' });
+});
 module.exports = router;

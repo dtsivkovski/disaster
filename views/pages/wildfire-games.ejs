@@ -35,6 +35,15 @@
     p {
       margin-bottom: 15px;
     }
+    .question-image {
+      width: 750px; /* Smaller width */
+      height: 500px; /* Smaller height */
+      display: block;
+      margin: 25px auto 0; /* Center the image and add space above */
+    }
+    .question-container {
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
@@ -50,13 +59,14 @@
 <main>
   <div class="jumbotron">
     <h1>Test your wildfire knowledge</h1>
-    <div class="is-flex is-flex-row is-align-content-center">
+    <div class="question-container">
       <p id="question"></p>
       <div class="select px-2">
         <select id="select-dropdown">
           <option value="">Select an answer</option>
         </select>
       </div>  
+      <img id="question-image" class="question-image" src="" alt="Question Image">
     </div>
   </div>
 </main>
@@ -66,22 +76,26 @@
         {
             "question": "What should be in your disaster kit?",
             "options": ["Select Answer", "Water", "Food", "Flashlight", "All of the above"],
-            "correctAnswer": 5
+            "correctAnswer": 5,
+            "image": "https://batonrougeclinic.com/wp-content/uploads/2023/08/disaster-scaled.jpg"
         },
         {
             "question": "Where should you go if you get trapped inside your house during a wildfire?",
             "options": ["Select Answer", "The roof", "The middle of the house", "Against the Walls", "None of the above"],
-            "correctAnswer": 3
+            "correctAnswer": 3,
+            "image": "https://www.ready.gov/sites/default/files/2020-11/wildfire-house_hero.jpg"
         },
         {
             "question": "Does a wildfire affect food inside a house?",
             "options": ["Select Answer", "Yes", "No", "Only icecream"],
-            "correctAnswer": 2
+            "correctAnswer": 2,
+            "image": "https://www.dkiservices.com/wp-content/uploads/2020/02/Is-Food-Safe-to-Eat-After-a-Fire_.jpg"
         },
         {
           "question": "When should you return home after a wildfire?",
           "options": ["Select Answer", "Immediately", "After 12 hours", "Never", "When authorities say it's safe"],
-          "correctAnswer": 5
+          "correctAnswer": 5,
+          "image": "https://ktla.com/wp-content/uploads/sites/4/2024/07/Macy-Fire-house.png?strip=1&w=640"
         }
     ];
 
@@ -99,6 +113,8 @@
             opt.innerText = option;
             dropdown.appendChild(opt);
         });
+
+        document.getElementById('question-image').src = currentQuestion.image;
     }
 
     document.getElementById('select-dropdown').addEventListener('change', function() {
@@ -112,6 +128,8 @@
                 loadQuestion();
             } else {
                 alert('Quiz completed!');
+                window.location.href = "/wildfires";
+
             }
         } else {
             alert('Incorrect! Try again.');
