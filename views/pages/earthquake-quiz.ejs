@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+  <title>Earthquakes</title>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    .jumbotron {
+      border-radius: 8px;
+      padding: 5em 10em;
+    }
+    h1 {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 1.8em;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    h3 {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin-bottom: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    p {
+      margin-bottom: 15px;
+    }
+    .my-button{
+      background-color: #000; /* Default color */
+      color: #fff;
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+    .my-button:hover{
+      background-color: #8e8585; /* Default color */
+      color: #fff;
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+    button-correct{
+      background-color: #7cff00; /* Default color */
+      color: #fff;
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+    button-wrong{
+      background-color: #ff0000; /* Default color */
+      color: #fff;
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<script>
+  document.getElementById('earthquakes-nav-item').classList.add('is-active');
+</script>
+
+<main>
+  <div class="jumbotron">
+    <h1> Earthquake Quiz </h1>
+    <h3> What should you do durring an Earthquake</h3>
+    <button class= "my-button" onclick = "colorFn('my-button', 0, 'green')">Go under a sturdy structure</button>
+    <button class= "my-button"  onclick = "colorFn('my-button', 1, 'red')"> Do nothing</button>
+    <button class= "my-button" onclick = "colorFn('my-button', 2, 'red')"> Stand in the middle of the room</button>
+    <button class= "my-button"  onclick = "colorFn('my-button', 3, 'red')"> Run into the street</button>
+    <h3> What scale does the United States use to measure earthquakes?</h3>
+    <button class= "my-button" onclick = "colorFn('my-button', 4, 'green')">Moment Magnitude</button>
+    <button class= "my-button"  onclick = "colorFn('my-button', 5, 'red')">Richter</button>
+    <h3> The largest earthquake recorded was a magnitude ___ ?</h3>
+    <button class= "my-button" onclick = "colorFn('my-button', 6, 'red')"> 7.3</button>
+    <button class= "my-button"  onclick = "colorFn('my-button', 7, 'red')">6.9</button>
+    <button class= "my-button" onclick = "colorFn('my-button', 8, 'green')"> 9.5</button>
+    <button class= "my-button"  onclick = "colorFn('my-button', 9, 'red')">11.3</button>
+    <h3> How long does an earthquake usually last between?</h3>
+    <button class= "my-button" onclick = "colorFn('my-button', 10, 'red')"> 1-2 minute </button>
+    <button class= "my-button"  onclick = "colorFn('my-button', 11, 'green')">10-30 seconds</button>
+    <button class= "my-button" onclick = "colorFn('my-button', 12, 'red')"> 1-9 seconds</button>
+    <button class= "my-button"  onclick = "colorFn('my-button', 13, 'red')"> 30 minutes to an hour</button>
+    
+  </div>
+
+  <script>
+    function colorFn(buttonClass, count, newColor) {
+      const btns =
+              document.getElementsByClassName(buttonClass);
+        btns[count].style.backgroundColor = newColor;
+    }
+  </script>
+</main>
+
+
+
+<footer>
+
+</footer>
+
+</body>
+</html>
