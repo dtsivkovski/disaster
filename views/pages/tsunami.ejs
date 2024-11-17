@@ -35,6 +35,24 @@
     p {
       margin-bottom: 15px;
     }
+    .grid.has-2-cols {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .cell.box {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem;
+    }
+    .cell.box h3 {
+      margin-top: 0;
+    }
+    .cell.box p, .cell.box ul {
+      flex-grow: 1;
+      margin-bottom: 0;
+    }
   </style>
 </head>
 <body>
@@ -49,40 +67,72 @@
 
 <main>
   <div class="jumbotron">
-    <h1> Tsunamis </h1>
-    <img src="https://cdn.dnaindia.com/sites/default/files/styles/full/public/2017/05/08/573236-tsunami.jpg" alt = "Tsunamis" width = "50%">
+    <h1>Tsunamis</h1>
+    <p>Tsunamis are powerful series of ocean waves that can cause devastating damage to coastal areas. Understanding the warning signs and knowing how to respond can be crucial for survival.</p>
 
-    <ul>
-      <h2> What to do during a Tsunami</h2>
-      <ol>
-        <li>Get to as a high as ground as possible</li>
-        <li>Tsunamis can come as a series of waves so wait there till you recieve word that it is safe to leave</li>
-      </ol>
-      <h2> How to tell if a tsunami is happening</h2>
+    <div class="columns pt-3">
+      <div class="column p-3">
+        <img src="https://cdn.dnaindia.com/sites/default/files/styles/full/public/2017/05/08/573236-tsunami.jpg" alt="Tsunami" width="99%">
+      </div>
+      <div class="column p-3 pl-5 ml-2">
+        <h2>What to do during a Tsunami</h2>
+        <ol>
+          <li>Get to high ground immediately - aim for at least 100 feet above sea level</li>
+          <li>Stay away from the beach and coastal areas</li>
+          <li>Wait for official "all-clear" before returning - tsunamis can come in series of waves</li>
+          <li>If you can't reach high ground, go to the upper floors of sturdy buildings</li>
+        </ol>
+      </div>
+    </div>
 
-        <li>If you are at the beach you will see the tides recede greatly</li>
-        <li>If you do see a large recede in tides then there is probably around 5 minutes till the tsunami reaches</li>
-      <h2> Warning System</h2>
+    <div class="columns pt-2">
+      <div class="column p-3 fixed-grid">
+        <h2>Key Facts</h2>
+        <div class="grid has-2-cols">
+          <div class="cell box is-flex is-flex-direction-column">
+            <h3>Warning Signs</h3>
+            <ul>
+              <li>Sudden receding of ocean water</li>
+              <li>Approximately 5 minutes warning time after water recedes</li>
+              <li>Loud roaring sound like a train or jet</li>
+            </ul>
+          </div>
+          <div class="cell box is-flex is-flex-direction-column">
+            <h3>Did you know?</h3>
+            <p>About 80% of tsunamis happen within the Pacific Ocean's "Ring of Fire," where tectonic shifts make volcanoes and earthquakes common.</p>
+          </div>
+          <div class="cell box is-flex is-flex-direction-column">
+            <h3>Speed & Power</h3>
+            <p>Tsunamis can race across the sea at up to 500 miles (805 kilometers) per hour, crossing the entire Pacific Ocean in less than a day!</p>
+          </div>
+          <div class="cell box is-flex is-flex-direction-column">
+            <h3>Warning System</h3>
+            <p>The Pacific Tsunami Warning System, a coalition of 26 nations, maintains seismic equipment and water level gauges to identify tsunamis at sea.</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <li> The Pacific Tsunami Warning System, a coalition of 26 nations headquartered in Hawaii, maintains a web of seismic equipment and water level gauges to identify tsunamis at sea </li>
-        <li> Similar systems are proposed to protect coastal areas worldwide</li>
-        
-      <h2> General Information</h2>
-
-        <li> Tsunamis are a series of ocean waves that sends surges of water, sometimes reaching heights of over 100 feet (30.5 meters), onto land </li>
-        <li> About 80% of tsunamis happen within the Pacific Ocean’s “Ring of Fire,” a geologically active area where tectonic shifts make volcanoes and earthquakes common</li>
-        <li> Tsunamis race across the sea at up to 500 miles (805 kilometers) an hour. At that pace, they can cross the entire expanse of the Pacific Ocean in less than a day and their long wavelengths mean they lose very little energy along the way </li>
-        <li> In the deep ocean, tsunami waves may appear only a foot or so high. But as they approach shoreline and enter shallow water they slow down and begin to grow in energy and height </li>
-        <li> The tops of the waves move faster than their bottoms do, which causes them to rise precipitously </li>
-        <li> A tsunami’s trough, the low point beneath the wave’s crest, often reaches shore first. When it does, it produces a vacuum effect that sucks coastal water seaward and exposes harbor and sea floors</li>
-      <h2> What Causes Tsunamis</h2>
-
-        <li>Tsunamis are typically caused by large, undersea earthquakes at tectonic plate boundaries. When the ocean floor at a plate boundary rises or falls suddenly, it displaces the water above it and launches the rolling waves that will become a tsunami</li>
-        <li> Tsunamis may also be caused by underwater landslides, volcanic eruptions, or by the impact of a large meteorite plunging into an ocean</li>
-      <h2> Appearance of Tsunamis</h2>
-
-        <li> A tsunami is usually composed of a series of waves, called a wave train, so its destructive force may be compounded as successive waves reach shore </li>
-        <li> Some tsunamis do not appear on shore as massive breaking waves but instead resemble a quickly surging tide that flood coastal areas </li>
+    <div class="columns pt-3">
+      <div class="column p-3">
+        <h2>Causes of Tsunamis</h2>
+        <ul>
+          <li>Undersea earthquakes at tectonic plate boundaries</li>
+          <li>Underwater landslides</li>
+          <li>Volcanic eruptions</li>
+          <li>Large meteorite impacts in the ocean</li>
+        </ul>
+      </div>
+      <div class="column p-3">
+        <h2>Characteristics</h2>
+        <ul>
+          <li>Usually composed of multiple waves (wave train)</li>
+          <li>Can appear as massive breaking waves or quickly surging tides</li>
+          <li>Wave height may be only a foot in deep ocean but grow tremendously near shore</li>
+          <li>The wave trough often reaches shore first, causing a vacuum effect</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </main>
 
