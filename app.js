@@ -1,7 +1,6 @@
 // mongoDB connection
-const { MongoClient, ServerApiVersion } = require('mongodb');
 const mongoose = require('mongoose');
-const startDeletionJob = require("./routes/deleteDislikedReports.js");
+const startDeletionJob = require("./routes/deleteReportsJobs.js");
 
 // express loggers
 var createError = require('http-errors');
