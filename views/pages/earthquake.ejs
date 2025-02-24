@@ -7,8 +7,12 @@
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
   <style>
     .jumbotron {
-      border-radius: 8px;
-      padding: 5em 10em;
+      padding-left: auto;
+      padding-right: auto;
+      padding-top: 5em;
+      max-width: 1024px;
+      margin-left: auto;
+      margin-right: auto;
     }
     h1 {
       font-size: 2.5em;
@@ -56,7 +60,7 @@
       border: 2px solid #2c3e50;
       border-radius: 4px;
       cursor: pointer;
-      margin: 5px;
+      margin: auto;
       transition: all 0.3s ease;
       width: 100%;
       text-align: left;
@@ -120,7 +124,7 @@
 
     <div class="columns pt-3">
       <div class="column p-3">
-        <img src="https://cdn-images-1.medium.com/max/1600/0*tAAY-S5oNuSSL0GI.jpg" alt = "Earthquake" width="99%">
+        <img src="https://cdn-images-1.medium.com/max/1600/0*tAAY-S5oNuSSL0GI.jpg" alt = "Earthquake" width="99%" style="border-radius: 12px;">
       </div>
       <div class="column p-3 pl-5 ml-2">
         <h2> What to do during an earthquake</h2>
@@ -132,7 +136,6 @@
         </ol>
       </div>
     </div>
-    <ul>
       <h2> General Information</h2>
         <div class="grid has-4-cols">
           <div class="cell box is-flex is-flex-direction-column">
@@ -205,8 +208,8 @@
         </div>
       </div>
       <div class="columns has-background-light has-text-dark rounded-md">
-        <div class="column is-four-fifths">
-          <div id="map" style="width: 95%; height: 50em; margin: 2em; border-radius: 1em; border: 2px solid rgb(23, 23, 23); background-color: rgb(23,23,23)"></div>
+        <div class="column is-flex ">
+          <div id="map" style="width: 99%; height: 25rem; padding-left: auto; padding-right: auto; padding-top: 1em; border-radius: 1em; border: 2px solid rgb(23, 23, 23); background-color: rgb(23,23,23)"></div>
         </div>
         <div class="column is-flex is-3 is-flex-direction-column has-background-light has-text-dark rounded-md">
           <h3 class="has-text-centered">Filters</h3>
