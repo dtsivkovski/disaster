@@ -93,6 +93,11 @@ a {
   animation: shake 0.8s infinite linear;
 }
 
+.hanging-indent {
+  text-indent: -1em;
+  margin-left: 1em;
+}
+
 @keyframes in-from-right {
   from {
     transform: translateX(100vw);
