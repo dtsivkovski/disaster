@@ -78,3 +78,47 @@ a {
   background-color: hsl(29, 100%, 71%) !important;
   color: black;
 }
+
+.in-from-right-1s {
+  animation: in-from-right 1s;
+  transform: translateX(100vw);
+}
+
+.in-from-left-1s {
+  animation: in-from-left 1s;
+  transform: translateX(-100vw);
+}
+
+.animate-shake {
+  animation: shake 0.8s infinite linear;
+}
+
+@keyframes in-from-right {
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes in-from-left {
+  from {
+    transform: translateX(-100vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes shake {
+  0%, 50%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(3deg);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+}

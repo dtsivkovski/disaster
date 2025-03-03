@@ -207,8 +207,11 @@
           </div>
         </div>
       </div>
-      <div class="columns has-background-light has-text-dark rounded-md">
-        <div class="column is-flex ">
+      <div class="my-3" style="display: flex;" id="mapToolButtonContainer">
+        <button class="button mx-auto animate-shake" onclick="enableMap()">Launch Interactive Map Tool</button>
+      </div>
+      <div class="columns has-background-light has-text-dark rounded-md" id="earthquakeMapContainer" style="display: none">
+        <div class="column is-flex">
           <div id="map" style="width: 99%; height: 25rem; padding-left: auto; padding-right: auto; padding-top: 1em; border-radius: 1em; border: 2px solid rgb(23, 23, 23); background-color: rgb(23,23,23)"></div>
         </div>
         <div class="column is-flex is-3 is-flex-direction-column has-background-light has-text-dark rounded-md">
@@ -231,154 +234,162 @@
         // if location is provided, get location for center of map
         var userLocation = [-117.903663, 33.798444]; // default userMarker location
 
-        // check if user has enabled location service on browser or if supported
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                userLocation = [position.coords.longitude, position.coords.latitude];
+        function enableMap() {
+          document.getElementById('earthquakeMapContainer').style.display = 'flex';
+          document.getElementById('mapToolButtonContainer').style.display = 'none';
+
+          // check if user has enabled location service on browser or if supported
+          if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition((position) => {
+                  userLocation = [position.coords.longitude, position.coords.latitude];
+              });
+          } else {
+            console.log('Geolocation is not supported.');
+          }
+
+          // create new map at default location
+          var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: userLocation,
+            zoom: 3,
+            projection: 'globe'
+          });
+
+          var userMarker = new mapboxgl.Marker({
+              draggable: false
+          })
+          .setLngLat(userLocation).addTo(map);
+
+          var userPopUp = new mapboxgl.Popup({ offset: 25 }).setText(
+              'Your location'
+          );
+
+          userMarker.setPopup(userPopUp);
+
+          let oldEarthquakeMarkers = [];
+
+          // set constants for earthquake retrieval
+          let today = new Date();
+          let startTime = new Date(today.setDate(today.getDate() - 5));
+          let endTime = new Date();
+          let minMagnitude = 4;
+
+          const setPastDay = () => {
+            today = new Date();
+            startTime = new Date(today.setDate(today.getDate() - 1));
+            endTime = new Date();
+            populateMap();
+          }
+
+          const setPastWeek = () => {
+            today = new Date();
+            startTime = new Date(today.setDate(today.getDate() - 7));
+            endTime = new Date();
+            populateMap();
+          }
+
+          const setPastMonth = () => {
+            today = new Date();
+            startTime = new Date(today.setDate(today.getDate() - 30));
+            endTime = new Date();
+            populateMap();
+          }
+
+          const setMagnitude = (magnitude) => {
+            minMagnitude = magnitude;
+            populateMap();
+          }
+
+          earthquake_reports_json = async () => {
+
+            const formatDate = (d) => {
+              const year = d.getFullYear();
+              const month = String(d.getMonth() + 1).padStart(2, '0');
+              const day = String(d.getDate()).padStart(2, '0');
+              return `${year}-${month}-${day}`;
+            };
+
+            // get date strings in yyyy-mm-dd format
+            const date_start_str = formatDate(startTime);
+            const date_end_str = formatDate(endTime);
+
+            // get earthquake data from USGS using fetch
+            const response = await fetch(`https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${date_start_str}&endtime=${date_end_str}&minmagnitude=${minMagnitude}`);
+            const data = await response.text();
+
+            return JSON.parse(data);
+          }
+
+          function populateMap() {
+            earthquake_reports_json().then(earthquakes => {
+            console.log(earthquakes);
+
+            // remove old markers
+            oldEarthquakeMarkers.forEach(marker => {
+              marker.remove();
             });
-        } else {
-        }
+            // empty the array
+            oldEarthquakeMarkers = [];
 
-        // create new map at default location
-        var map = new mapboxgl.Map({
-          container: 'map',
-          style: 'mapbox://styles/mapbox/streets-v11',
-          center: userLocation,
-          zoom: 3,
-          projection: 'globe'
-        });
+            earthquakes.features.forEach((earthquake) => {
 
-        var userMarker = new mapboxgl.Marker({
-            draggable: false
-        })
-        .setLngLat(userLocation).addTo(map);
+              // customer marker size based on magnitude (lowest is 4.0)
+              const magnitudeFactor = (earthquake.properties.mag - 4) / 4;
+              const markerSize = 5 + (magnitudeFactor * 40);
 
-        var userPopUp = new mapboxgl.Popup({ offset: 25 }).setText(
-            'Your location'
-        );
+              // create a HTML element for each feature
+              var el = document.createElement('div');
+              el.style.width=markerSize + 'px';
+              el.style.height=markerSize + 'px';
+              el.style.backgroundImage = 'url(https://em-content.zobj.net/source/openmoji/384/large-red-circle_1f534.png)';
+              el.style.backgroundSize = '100%';
+              el.className = 'marker';
 
-        userMarker.setPopup(userPopUp);
+              // make a marker for each feature and add to the map
+              const marker = new mapboxgl.Marker(el)
+              .setLngLat([earthquake.geometry.coordinates[0], earthquake.geometry.coordinates[1]])
+              .addTo(map);
 
-        let oldEarthquakeMarkers = [];
+              // create a URL to redirect to the felt it page
+              const feltItUrl = earthquake.properties.url + '/tellus';
 
-        // set constants for earthquake retrieval
-        let today = new Date();
-        let startTime = new Date(today.setDate(today.getDate() - 5));
-        let endTime = new Date();
-        let minMagnitude = 4;
+              // give the marker a popup
+              var popupContent = `
+                  <div class="p-2" style="text-align: center;">
+                      <p class="is-size-6"><b>Magnitude ${earthquake.properties.mag}</b></p>
+                      <p class="is-size-6"> ${earthquake.properties.place}</p>
+                      <p class="is-size-7">${new Date(earthquake.properties.time).toLocaleString()}</p>
+                      <button class="button is-link mt-2 dislike-btn" onclick="window.open('${earthquake.properties.url}', '_blank')"><i class="fa-solid fa-info mr-3"></i> More details</button>
+                      <button class="button is-link mt-2" onclick="window.open('${feltItUrl}', '_blank')">🫨 I felt it!</button>
+                  </div>
+              `;
 
-        const setPastDay = () => {
-          today = new Date();
-          startTime = new Date(today.setDate(today.getDate() - 1));
-          endTime = new Date();
-          populateMap();
-        }
+              // Attach popup with custom HTML
+              var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
+              marker.setPopup(popup);
 
-        const setPastWeek = () => {
-          today = new Date();
-          startTime = new Date(today.setDate(today.getDate() - 7));
-          endTime = new Date();
-          populateMap();
-        }
+              // Add event listener to handle button clicks after the popup is added to the DOM
+              popup.on('open', () => {
+              });
 
-        const setPastMonth = () => {
-          today = new Date();
-          startTime = new Date(today.setDate(today.getDate() - 30));
-          endTime = new Date();
-          populateMap();
-        }
+              oldEarthquakeMarkers.push(marker); // used to clear old markers upon getting a new set of data
 
-        const setMagnitude = (magnitude) => {
-          minMagnitude = magnitude;
-          populateMap();
-        }
-
-        earthquake_reports_json = async () => {
-
-          const formatDate = (d) => {
-            const year = d.getFullYear();
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-          };
-
-          // get date strings in yyyy-mm-dd format
-          const date_start_str = formatDate(startTime);
-          const date_end_str = formatDate(endTime);
-
-          // get earthquake data from USGS using fetch
-          const response = await fetch(`https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${date_start_str}&endtime=${date_end_str}&minmagnitude=${minMagnitude}`);
-          const data = await response.text();
-
-          return JSON.parse(data);
-        }
-
-        function populateMap() {
-          earthquake_reports_json().then(earthquakes => {
-          console.log(earthquakes);
-
-          // remove old markers
-          oldEarthquakeMarkers.forEach(marker => {
-            marker.remove();
-          });
-          // empty the array
-          oldEarthquakeMarkers = [];
-
-          earthquakes.features.forEach((earthquake) => {
-
-            // customer marker size based on magnitude (lowest is 4.0)
-            const magnitudeFactor = (earthquake.properties.mag - 4) / 4;
-            const markerSize = 5 + (magnitudeFactor * 40);
-
-            // create a HTML element for each feature
-            var el = document.createElement('div');
-            el.style.width=markerSize + 'px';
-            el.style.height=markerSize + 'px';
-            el.style.backgroundImage = 'url(https://em-content.zobj.net/source/openmoji/384/large-red-circle_1f534.png)';
-            el.style.backgroundSize = '100%';
-            el.className = 'marker';
-
-            // make a marker for each feature and add to the map
-            const marker = new mapboxgl.Marker(el)
-            .setLngLat([earthquake.geometry.coordinates[0], earthquake.geometry.coordinates[1]])
-            .addTo(map);
-
-            // create a URL to redirect to the felt it page
-            const feltItUrl = earthquake.properties.url + '/tellus';
-
-            // give the marker a popup
-            var popupContent = `
-                <div class="p-2" style="text-align: center;">
-                    <p class="is-size-6"><b>Magnitude ${earthquake.properties.mag}</b></p>
-                    <p class="is-size-6"> ${earthquake.properties.place}</p>
-                    <p class="is-size-7">${new Date(earthquake.properties.time).toLocaleString()}</p>
-                    <button class="button is-link mt-2 dislike-btn" onclick="window.open('${earthquake.properties.url}', '_blank')"><i class="fa-solid fa-info mr-3"></i> More details</button>
-                    <button class="button is-link mt-2" onclick="window.open('${feltItUrl}', '_blank')">🫨 I felt it!</button>
-                </div>
-            `;
-
-            // Attach popup with custom HTML
-            var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
-            marker.setPopup(popup);
-
-            // Add event listener to handle button clicks after the popup is added to the DOM
-            popup.on('open', () => {
             });
 
-            oldEarthquakeMarkers.push(marker); // used to clear old markers upon getting a new set of data
+            }).catch(error => {
+              console.error('Error fetching earthquake data:', error);
+            });
+          }
 
-          });
+          populateMap();
 
-          }).catch(error => {
-            console.error('Error fetching earthquake data:', error);
-          });
         }
-
-        populateMap();
+        
       </script>
 
       <h2>How Earthquakes are measured </h2>
-        <li> The intensity and magnitude of an earthquake varies from those that can’t be felt to those strong enough to propel people or objects into the air and cause major destruction</li>
+        <li> The intensity and magnitude of an earthquake <b>varies</b> from those that can’t be felt to those strong enough to propel people or objects into the air and cause major destruction</li>
         <li> Intensity would measure the amount of shaking caused by an earthquake</li>
         <li> Magnitude scales are used to measure size of earthquakes</li>
         <li> Scales vary from country to country</li>
