@@ -234,6 +234,103 @@
         // if location is provided, get location for center of map
         var userLocation = [-117.903663, 33.798444]; // default userMarker location
 
+        var earthquake_reports_json;
+        var oldEarthquakeMarkers = [];
+        var map;
+
+        // set vars for earthquake retrieval
+        let today = new Date();
+        let startTime = new Date(today.setDate(today.getDate() - 5));
+        let endTime = new Date();
+        let minMagnitude = 4;
+
+        const setPastDay = () => {
+          today = new Date();
+          startTime = new Date(today.setDate(today.getDate() - 1));
+          endTime = new Date();
+          populateMap();
+        }
+
+        const setPastWeek = () => {
+          today = new Date();
+          startTime = new Date(today.setDate(today.getDate() - 7));
+          endTime = new Date();
+          populateMap();
+        }
+
+        const setPastMonth = () => {
+          today = new Date();
+          startTime = new Date(today.setDate(today.getDate() - 30));
+          endTime = new Date();
+          populateMap();
+        }
+
+        const setMagnitude = (magnitude) => {
+          minMagnitude = magnitude;
+          populateMap();
+        }
+
+        function populateMap() {
+          earthquake_reports_json().then(earthquakes => {
+          console.log(earthquakes);
+
+          // remove old markers
+          oldEarthquakeMarkers.forEach(marker => {
+            marker.remove();
+          });
+          // empty the array
+          oldEarthquakeMarkers = [];
+
+          earthquakes.features.forEach((earthquake) => {
+
+            // customer marker size based on magnitude (lowest is 4.0)
+            const magnitudeFactor = (earthquake.properties.mag - 4) / 4;
+            const markerSize = 5 + (magnitudeFactor * 40);
+
+            // create a HTML element for each feature
+            var el = document.createElement('div');
+            el.style.width=markerSize + 'px';
+            el.style.height=markerSize + 'px';
+            el.style.backgroundImage = 'url(https://em-content.zobj.net/source/openmoji/384/large-red-circle_1f534.png)';
+            el.style.backgroundSize = '100%';
+            el.className = 'marker';
+
+            // make a marker for each feature and add to the map
+            const marker = new mapboxgl.Marker(el)
+            .setLngLat([earthquake.geometry.coordinates[0], earthquake.geometry.coordinates[1]])
+            .addTo(map);
+
+            // create a URL to redirect to the felt it page
+            const feltItUrl = earthquake.properties.url + '/tellus';
+
+            // give the marker a popup
+            var popupContent = `
+                <div class="p-2" style="text-align: center;">
+                    <p class="is-size-6"><b>Magnitude ${earthquake.properties.mag}</b></p>
+                    <p class="is-size-6"> ${earthquake.properties.place}</p>
+                    <p class="is-size-7">${new Date(earthquake.properties.time).toLocaleString()}</p>
+                    <button class="button is-link mt-2 dislike-btn" onclick="window.open('${earthquake.properties.url}', '_blank')"><i class="fa-solid fa-info mr-3"></i> More details</button>
+                    <button class="button is-link mt-2" onclick="window.open('${feltItUrl}', '_blank')">🫨 I felt it!</button>
+                </div>
+            `;
+
+            // Attach popup with custom HTML
+            var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
+            marker.setPopup(popup);
+
+            // Add event listener to handle button clicks after the popup is added to the DOM
+            popup.on('open', () => {
+            });
+
+            oldEarthquakeMarkers.push(marker); // used to clear old markers upon getting a new set of data
+
+          });
+
+          }).catch(error => {
+            console.error('Error fetching earthquake data:', error);
+          });
+        }
+
         function enableMap() {
           document.getElementById('earthquakeMapContainer').style.display = 'flex';
           document.getElementById('mapToolButtonContainer').style.display = 'none';
@@ -248,7 +345,7 @@
           }
 
           // create new map at default location
-          var map = new mapboxgl.Map({
+          map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11',
             center: userLocation,
@@ -256,50 +353,20 @@
             projection: 'globe'
           });
 
-          var userMarker = new mapboxgl.Marker({
+          map.on('load', () => {
+            var userMarker = new mapboxgl.Marker({
               draggable: false
+            })
+            .setLngLat(userLocation).addTo(map);
+
+            var userPopUp = new mapboxgl.Popup({ offset: 25 }).setText(
+                'Your location'
+            );
+
+            userMarker.setPopup(userPopUp);
           })
-          .setLngLat(userLocation).addTo(map);
 
-          var userPopUp = new mapboxgl.Popup({ offset: 25 }).setText(
-              'Your location'
-          );
-
-          userMarker.setPopup(userPopUp);
-
-          let oldEarthquakeMarkers = [];
-
-          // set constants for earthquake retrieval
-          let today = new Date();
-          let startTime = new Date(today.setDate(today.getDate() - 5));
-          let endTime = new Date();
-          let minMagnitude = 4;
-
-          const setPastDay = () => {
-            today = new Date();
-            startTime = new Date(today.setDate(today.getDate() - 1));
-            endTime = new Date();
-            populateMap();
-          }
-
-          const setPastWeek = () => {
-            today = new Date();
-            startTime = new Date(today.setDate(today.getDate() - 7));
-            endTime = new Date();
-            populateMap();
-          }
-
-          const setPastMonth = () => {
-            today = new Date();
-            startTime = new Date(today.setDate(today.getDate() - 30));
-            endTime = new Date();
-            populateMap();
-          }
-
-          const setMagnitude = (magnitude) => {
-            minMagnitude = magnitude;
-            populateMap();
-          }
+          
 
           earthquake_reports_json = async () => {
 
@@ -321,67 +388,6 @@
             return JSON.parse(data);
           }
 
-          function populateMap() {
-            earthquake_reports_json().then(earthquakes => {
-            console.log(earthquakes);
-
-            // remove old markers
-            oldEarthquakeMarkers.forEach(marker => {
-              marker.remove();
-            });
-            // empty the array
-            oldEarthquakeMarkers = [];
-
-            earthquakes.features.forEach((earthquake) => {
-
-              // customer marker size based on magnitude (lowest is 4.0)
-              const magnitudeFactor = (earthquake.properties.mag - 4) / 4;
-              const markerSize = 5 + (magnitudeFactor * 40);
-
-              // create a HTML element for each feature
-              var el = document.createElement('div');
-              el.style.width=markerSize + 'px';
-              el.style.height=markerSize + 'px';
-              el.style.backgroundImage = 'url(https://em-content.zobj.net/source/openmoji/384/large-red-circle_1f534.png)';
-              el.style.backgroundSize = '100%';
-              el.className = 'marker';
-
-              // make a marker for each feature and add to the map
-              const marker = new mapboxgl.Marker(el)
-              .setLngLat([earthquake.geometry.coordinates[0], earthquake.geometry.coordinates[1]])
-              .addTo(map);
-
-              // create a URL to redirect to the felt it page
-              const feltItUrl = earthquake.properties.url + '/tellus';
-
-              // give the marker a popup
-              var popupContent = `
-                  <div class="p-2" style="text-align: center;">
-                      <p class="is-size-6"><b>Magnitude ${earthquake.properties.mag}</b></p>
-                      <p class="is-size-6"> ${earthquake.properties.place}</p>
-                      <p class="is-size-7">${new Date(earthquake.properties.time).toLocaleString()}</p>
-                      <button class="button is-link mt-2 dislike-btn" onclick="window.open('${earthquake.properties.url}', '_blank')"><i class="fa-solid fa-info mr-3"></i> More details</button>
-                      <button class="button is-link mt-2" onclick="window.open('${feltItUrl}', '_blank')">🫨 I felt it!</button>
-                  </div>
-              `;
-
-              // Attach popup with custom HTML
-              var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
-              marker.setPopup(popup);
-
-              // Add event listener to handle button clicks after the popup is added to the DOM
-              popup.on('open', () => {
-              });
-
-              oldEarthquakeMarkers.push(marker); // used to clear old markers upon getting a new set of data
-
-            });
-
-            }).catch(error => {
-              console.error('Error fetching earthquake data:', error);
-            });
-          }
-
           populateMap();
 
         }
@@ -389,16 +395,21 @@
       </script>
 
       <h2>How Earthquakes are measured </h2>
+      <ul>
         <li> The intensity and magnitude of an earthquake <b>varies</b> from those that can’t be felt to those strong enough to propel people or objects into the air and cause major destruction</li>
         <li> Intensity would measure the amount of shaking caused by an earthquake</li>
         <li> Magnitude scales are used to measure size of earthquakes</li>
         <li> Scales vary from country to country</li>
         <li> Japan has their own magnitude scale for instance that ranges from 0 to 7</li>
-        <li> The USGS uses the moment magnitude scale as the Richter scale is now considered outdated.</li>
-          <li> The Richter scale ranges from 2.0 to 9.0 and measures the height of a seismic wave</li>
-          <li> The moment magnitude scale ranges from -2.0 to 9.9 and measures the total energy released by the earthquake</li>
-          <li> The two scales have similar magnitudes from 3.0 to 7.0</li>
+        <li> The USGS uses the moment magnitude scale as the Richter scale is now considered outdated.
+          <ul class="pt-2">
+            <li> The Richter scale ranges from 2.0 to 9.0 and measures the height of a seismic wave</li>
+            <li> The moment magnitude scale ranges from -2.0 to 9.9 and measures the total energy released by the earthquake</li>
+            <li> The two scales have similar magnitudes from 3.0 to 7.0</li>
+          </ul>
+        </li>
         <li> The USGS website has a live tracker of all earthquakes </li>
+      </ul>
         <a href="https://earthquake.usgs.gov/earthquakes/map/?extent=-80.53207,-364.92188&extent=84.16085,119.88281" class="button">USGS's Official Earthquake Tracker</a>
 
       <!-- Quiz Section 2 -->
