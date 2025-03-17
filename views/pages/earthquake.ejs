@@ -103,9 +103,6 @@
     .rounded-md {
       border-radius: 8px;
     }
-    .greentext {
-      color: rgb(0, 212, 0);
-    }
     #earthquakeMapContainer {
       flex-direction: row;
       @media (max-width: 768px) {
@@ -135,10 +132,10 @@
       <div class="column p-3 pl-5 ml-2">
         <h2> What to do during an earthquake</h2>
         <ol>
-          <li><span class="greentext">Drop down</span>  on to the ground </li>
-          <li><span class="greentext">Crawl</span>  on your hand and knees <span class="greentext">to a sturdy structure</span> like a desk or bed and hide under it making sure to cover your head neck </li>
-          <li><span class="greentext">Hold on</span> to the sturdy structure </li>
-          <li>Wait, as most earthquakes only last <span class="greentext">10-30 seconds</span></li>
+          <li><span class="highlighted">Drop down</span>  on to the ground </li>
+          <li><span class="highlighted">Crawl</span>  on your hand and knees <span class="highlighted">to a sturdy structure</span> like a desk or bed and hide under it making sure to cover your head neck </li>
+          <li><span class="highlighted">Hold on</span> to the sturdy structure </li>
+          <li>Wait, as most earthquakes only last <span class="highlighted">10-30 seconds</span></li>
         </ol>
       </div>
     </div>
@@ -402,18 +399,20 @@
 
       <h2>How Earthquakes are measured </h2>
       <ul>
-        <li> The intensity and magnitude of an earthquake <b>varies</b> from those that can’t be felt to those strong enough to propel people or objects into the air and cause major destruction</li>
-        <li> Intensity would measure the amount of shaking caused by an earthquake</li>
-        <li> Magnitude scales are used to measure size of earthquakes</li>
-        <li> Scales vary from country to country</li>
-        <li> Japan has their own magnitude scale for instance that ranges from 0 to 7</li>
-        <li> The USGS uses the moment magnitude scale as the Richter scale is now considered outdated.
-          <ul class="pt-2">
-            <li> The Richter scale ranges from 2.0 to 9.0 and measures the height of a seismic wave</li>
-            <li> The moment magnitude scale ranges from -2.0 to 9.9 and measures the total energy released by the earthquake</li>
-            <li> The two scales have similar magnitudes from 3.0 to 7.0</li>
-          </ul>
-        </li>
+        <li> The <span class="highlighted">intensity and magnitude</span> of an earthquake <span class="highlighted">varies</span> from those that can’t be felt to those strong enough to propel people or objects into the air and cause major destruction</li>
+        <li> <span class="highlighted">Intensity</span> would measure the amount of shaking caused by an earthquake</li>
+        <li> <span class="highlighted">Magnitude scales</span> are used to measure the size of earthquakes</li>
+        <ul>
+          <li> Scales vary from country to country</li>
+          <li> Japan has their own magnitude scale, for instance, that ranges from 0 to 7</li>
+          <li> The USGS uses the <span class="highlighted">Moment Magnitude</span> scale, as the Richter scale is now considered outdated.
+            <ul class="pt-2">
+              <li> The moment magnitude scale ranges from <span class="highlighted">-2.0 to 9.9</span> and measures the total energy released by the earthquake</li>
+              <li> The Richter scale ranges from <span class="highlighted">2.0 to 9.0</span> and measures the height of a seismic wave</li>
+              <li> The two scales have similar magnitudes from <span class="highlighted">3.0 to 7.0</span></li>
+            </ul>
+          </li>
+        </ul>
         <li> The USGS website has a live tracker of all earthquakes </li>
       </ul>
         <a href="https://earthquake.usgs.gov/earthquakes/map/?extent=-80.53207,-364.92188&extent=84.16085,119.88281" class="button">USGS's Official Earthquake Tracker</a>
