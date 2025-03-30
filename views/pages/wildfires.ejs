@@ -43,6 +43,16 @@
       align-items: center;
       justify-content: center;
     }
+    .dont-section li {
+      display: list-item;
+      list-style-type: "❌";
+      padding-inline-start: 1ch;
+    }
+    .do-section li {
+      display: list-item;
+      list-style-type: "✅";
+      padding-inline-start: 1ch;
+    }
   </style>
 </head>
 <body>
@@ -91,7 +101,24 @@
         </ul>
       </div>
     </div> 
-
+    <div class="quiz-section">
+      <h3 class="quiz-title">🤔 Quiz Time! Test Your Knowledge</h3>
+      <p>What should be in your disaster kit?</p>
+      <div class="columns is-multiline">
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, false)">Water</button>
+        </div>
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, false)">Food</button>
+        </div>
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, false)">Flashlight</button>
+        </div>
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, true)">All of these</button>
+        </div>
+      </div>
+    </div>
     <div class="columns pt-3 center-in-place">
       <div class="column p-3">
         <img src="images/marcus-kauffman-unsplash.jpg" alt="Wildfire burning a forest" width="99%" style="border-radius: 12px; filter: drop-shadow(2px 6px 8px #000000bb)">
@@ -131,13 +158,31 @@
       </div>
     </div>
 
-    
+
+    <div class="quiz-section">
+      <h3 class="quiz-title">🎯 Pop Quiz!</h3>
+      <p>Where should you go if you get trapped inside your house during a wildfire?</p>
+      <div class="columns is-multiline">
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, false)">The roof</button>
+        </div>
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, true)">The middle of the house</button>
+        </div>
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, false)">Against the walls</button>
+        </div>
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, false)">None of these</button>
+        </div>
+      </div>
+    </div>
 
     <h2>What to do after a wildfire</h2>
     <div class="columns">
       <div class="column">
         <h3 style="color: rgb(247, 99, 99); font-weight: bold">DON'T</h3>
-        <ul>
+        <ul class="dont-section">
           <li>Return home before authorities say that it is safe to do so</li>
           <li>Enter any burnt structure recklessly</li>
           <li>Wear clothing that does not protect you</li>
@@ -149,7 +194,7 @@
       </div>
       <div class="column">
         <h3 style="color: rgb(116, 227, 112); font-weight: bold">DO</h3>
-        <ul>
+        <ul class="do-section">
           <li>Return home only when authorities say it is safe to do so</li>
           <li>Be cautious before stepping foot into any burnt structure</li>
           <li>Wear protective clothing</li>
@@ -161,7 +206,42 @@
         </ul>
       </div>
     </div>  
-    <a href="/wildfire-games" class="button"> Test Your Understanding</a>
+    <div class="quiz-section">
+      <h3 class="quiz-title">🧪 Knowledge Check!</h3>
+      <p>Does a wildfire affect food inside a house?</p>
+      <div class="columns is-multiline">
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, true)">Yes</button>
+        </div>
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, false)">No</button>
+        </div>
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, false)">Yes, but only ice cream</button>
+        </div>
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, false)">Yes, but only in a cupboard</button>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-section">
+      <h3 class="quiz-title">🔥 Final Question!</h3>
+      <p>When should you return home after a wildfire?</p>
+      <div class="columns is-multiline">
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, true)">Immediately</button>
+        </div>
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, false)">Five minutes after the fire disappeared</button>
+        </div>
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, false)">When it looks safe to you</button>
+        </div>
+        <div class="column is-6">
+          <button class="quiz-button" onclick="checkAnswer(this, false)">When authorities say it is safe to do so</button>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="jumbotron" id="sources" aria-label="Sources">
     <ol class="px-3">
@@ -170,11 +250,28 @@
     </ol>
   </div>
 </div>
+
+<script>
+  function checkAnswer(button, isCorrect) {
+    // Remove previous answers in the same quiz section
+    const quizSection = button.closest('.quiz-section');
+    const buttons = quizSection.getElementsByClassName('quiz-button');
+    
+    for (let btn of buttons) {
+      if (btn === button) {
+        btn.classList.add(isCorrect ? 'correct' : 'wrong');
+        btn.disabled = true;
+      } else {
+        if (isCorrect) {
+          btn.disabled = true;
+          btn.style.opacity = 0.5;
+        }
+      }
+    }
+  }
+</script>
+
 </main>
-
-<footer>
-
-</footer>
 
 </body>
 </html>
