@@ -42,46 +42,6 @@
     p {
       margin-bottom: 15px;
     }
-    .quiz-section {
-      background-color: #f5f5f5;
-      border-radius: 8px;
-      padding: 2em;
-      margin: 2em 0;
-    }
-    .quiz-title {
-      color: #2c3e50;
-      font-weight: bold;
-      margin-bottom: 1em;
-    }
-    .quiz-button {
-      background-color: #fff;
-      color: #2c3e50;
-      padding: 10px 20px;
-      border: 2px solid #2c3e50;
-      border-radius: 4px;
-      cursor: pointer;
-      margin: auto;
-      transition: all 0.3s ease;
-      width: 100%;
-      text-align: left;
-    }
-    .quiz-button:hover {
-      background-color: #2c3e50;
-      color: #fff;
-    }
-    .quiz-button.correct {
-      background-color: #27ae60;
-      color: #fff;
-      border-color: #27ae60;
-    }
-    .quiz-button.wrong {
-      background-color: #e74c3c;
-      color: #fff;
-      border-color: #e74c3c;
-    }
-    .quiz-section p {
-      color: black;
-    }
     .grid.has-2-cols {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -127,7 +87,8 @@
 
     <div class="columns pt-3">
       <div class="column p-3">
-        <img src="https://cdn-images-1.medium.com/max/1600/0*tAAY-S5oNuSSL0GI.jpg" alt = "Earthquake Aftermath" width="99%" style="border-radius: 12px;">
+        <img src="https://cdn-images-1.medium.com/max/1600/0*tAAY-S5oNuSSL0GI.jpg" alt = "Earthquake Aftermath" width="99%" style="border-radius: 12px; filter: drop-shadow(2px 6px 8px #000000bb)">
+        <p class="pt-3" style="color: #cccccc; text-align: center; font-style: italic">Photo by Mike Newbry on Unsplash</p>
       </div>
       <div class="column p-3 pl-5 ml-2">
         <h2> What to do during an earthquake</h2>
@@ -139,55 +100,54 @@
         </ol>
       </div>
     </div>
-      <h2> General Information</h2>
-        <div class="grid has-4-cols">
-          <div class="cell box is-flex is-flex-direction-column">
-            <h3>Fun Fact!</h3>
-            <p> Earthquakes are the shaking of the earth's surface caused by a sudden release of energy in the lithosphere that creates seismic waves </p>
-          </div>
-          <div class="cell box is-flex is-flex-direction-column">
-            <h3>Did you know?</h3>
-            <p> The lithosphere is the layer of earth comprised of the crust and the uppermost part of the mantle</p>
-          </div>
-          <div class="cell box is-flex is-flex-direction-column">
-            <h3>Woah 🫨</h3>
-            <p> The largest earthquakes that has been measured on a seismograph had a 9.5 magnitude and was known as the 1960 Chilean earthquake on May 22,1960</p>
-          </div>
-          <div class="cell box is-flex is-flex-direction-column">
-            <h3>Sad Story</h3>
-            <p class="is-text-6"> The 1556 Shaanxi Earthquake has the most fatalities at over 830,000 fatalities</p>
-          </div>
+      <div class="grid has-4-cols">
+        <div class="cell box is-flex is-flex-direction-column">
+          <h3>Fun Fact!</h3>
+          <p> Earthquakes are the shaking of the earth's surface caused by a sudden release of energy in the lithosphere that creates seismic waves </p>
         </div>
-        <div class="">
-          <div class="column p-3 narrow">
-            <h3> Other names for earthquakes</h3>
-            <table class="table">
-              <tr>
-                <td>
-                  Quake
-                </td>
-                <td>
-                  The general name for this phenomenon, as quakes on moon are referred to as <i>moonquakes</i>, on Mars they are <i>marsquakes</i>, and on Earth they are <i>earthquakes</i>.
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Tremor
-                </td>
-                <td>
-                  The word tremor may also be used for non-earthquake seismic rumbles
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Tremblor
-                </td>
-                <td>
-                  Earth tremor
-                </td>
-              </tr>
-            </table>
-          </div>
+        <div class="cell box is-flex is-flex-direction-column">
+          <h3>Did you know?</h3>
+          <p> The lithosphere is the layer of earth comprised of the crust and the uppermost part of the mantle</p>
+        </div>
+        <div class="cell box is-flex is-flex-direction-column">
+          <h3>Woah 🫨</h3>
+          <p> The largest earthquakes that has been measured on a seismograph had a 9.5 magnitude and was known as the 1960 Chilean earthquake on May 22,1960</p>
+        </div>
+        <div class="cell box is-flex is-flex-direction-column">
+          <h3>Sad Story</h3>
+          <p class="is-text-6"> The 1556 Shaanxi Earthquake has the most fatalities at over 830,000 fatalities</p>
+        </div>
+      </div>
+      <div class="">
+        <div class="column p-3 narrow">
+          <h3> Other names for earthquakes</h3>
+          <table class="table">
+            <tr>
+              <td>
+                Quake
+              </td>
+              <td>
+                The general name for this phenomenon, as quakes on moon are referred to as <i>moonquakes</i>, on Mars they are <i>marsquakes</i>, and on Earth they are <i>earthquakes</i>.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Tremor
+              </td>
+              <td>
+                The word tremor may also be used for non-earthquake seismic rumbles
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Tremblor
+              </td>
+              <td>
+                Earth tremor
+              </td>
+            </tr>
+          </table>
+        </div>
         <div class="column p-3">
           <!-- Quiz Section 1 -->
           <div class="quiz-section">
