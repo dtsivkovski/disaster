@@ -17,10 +17,6 @@ a {
   color: #00B7FF;
 }
 
-.navbar-item.is-active {
-  color: white;
-}
-
 .highlighted {
   background: -webkit-linear-gradient(#fb26ff, #ff7235);
   -webkit-background-clip: text;
@@ -83,7 +79,7 @@ a {
 }
 
 .navbar-item.is-active {
-  background-color: hsl(29, 100%, 71%) !important;
+  background: -webkit-linear-gradient(#fd97ff, #ff8a57) !important;
   color: black;
 }
 
