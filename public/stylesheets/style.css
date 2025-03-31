@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&display=swap');
+
 body {
-  font: 1em "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 1em "Assistant", Helvetica, Arial, sans-serif;
   background: linear-gradient(0deg,#1c1c1c 100%, #1c1c1c 100%);
   min-height: 100vh;
   max-width: 100vw;
